@@ -1041,15 +1041,11 @@ class controls(setLayouts):
                         OrgUpVec = (0, -1, 0)
                         OrgLowVec = (0, 1, 0)
 
-                        ojX = 180
-                        ojY = 180
                     if self.judge_LR == 'l_':
                         UpVec = (0, -1, 0)
                         aimVec = (0, 0, 1)
                         OrgUpVec = (0, 1, 0)
                         OrgLowVec = (0, -1, 0)
-                        ojX = 0
-                        ojY = 180
 
                     self.dupOtherGrp = cmds.duplicate(self.lidOtherGrp, n=self.set_LR + '_%s_Other_grp' % self.name)
                     cmds.setAttr(self.dupOtherGrp[0] + '.sx', -1)
@@ -1134,10 +1130,10 @@ class controls(setLayouts):
                             n=s.replace('Space', 'End'))
                         if self.judge_LR == 'l_':
                             cmds.setAttr(lidLowSpaceJnt + '.jointOrientX', 180)
-                            cmds.setAttr(lidLowSpaceJnt + '.jointOrientY', 180)
+                            cmds.setAttr(lidLowSpaceJnt + '.jointOrientY', 0)
                         if self.judge_LR == 'r_':
-                            cmds.setAttr(lidLowSpaceJnt + '.jointOrientX', 0)
-                            cmds.setAttr(lidLowSpaceJnt + '.jointOrientY', 180)
+                            cmds.setAttr(lidLowSpaceJnt + '.jointOrientX', 180)
+                            cmds.setAttr(lidLowSpaceJnt + '.jointOrientY', 0)
 
                         sortLowSkinCrvJnts.append(lidLowEndJnt)
 
