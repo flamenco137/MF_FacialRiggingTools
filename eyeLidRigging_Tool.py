@@ -476,15 +476,11 @@ class controls(setLayouts):
                         OrgUpVec = (0, -1, 0)
                         OrgLowVec = (0, 1, 0)
 
-                        ojX = 0
-                        ojY = 0
                     if self.judge_LR == 'l_':
                         UpVec = (0, -1, 0)
                         aimVec = (0, 0, 1)
                         OrgUpVec = (0, 1, 0)
                         OrgLowVec = (0, -1, 0)
-                        ojX = 0
-                        ojY = 0
 
                     for i, s in enumerate(upLidCrvPointList):
                         if i == 1 or i == 5:
@@ -497,6 +493,12 @@ class controls(setLayouts):
                             p=cmds.pointPosition(self.judge_LR + self.name + 'UpPath_crv.cv[%s]' % i),
                             n=s.replace('Space', 'End'))
                         sortUpSkinCrvJnts.append(lidUpEndJnt)
+                        if self.judge_LR == 'l_':
+                            cmds.setAttr(lidUpSpaceJnt + '.jointOrientX', 0)
+                            cmds.setAttr(lidUpSpaceJnt + '.jointOrientY', 0)
+                        elif self.judge_LR == 'r_':
+                            cmds.setAttr(lidUpSpaceJnt + '.jointOrientX', 180)
+                            cmds.setAttr(lidUpSpaceJnt + '.jointOrientY', 0)
 
                     for i, s in enumerate(LowLidCrvPointList):
                         if i == 0 or i == 1 or i == 5 or i == 6:
@@ -508,7 +510,12 @@ class controls(setLayouts):
                         lidLowEndJnt = cmds.joint(
                             p=cmds.pointPosition(self.judge_LR + self.name + 'LowPath_crv.cv[%s]' % i),
                             n=s.replace('Space', 'End'))
-                        cmds.setAttr(lidLowSpaceJnt + '.jointOrientX', ojX)
+                        if self.judge_LR == 'l_':
+                            cmds.setAttr(lidLowSpaceJnt + '.jointOrientX', 180)
+                            cmds.setAttr(lidLowSpaceJnt + '.jointOrientY', 180)
+                        elif self.judge_LR == 'r_':
+                            cmds.setAttr(lidLowSpaceJnt + '.jointOrientX', 0)
+                            cmds.setAttr(lidLowSpaceJnt + '.jointOrientY', 180)
                         sortLowSkinCrvJnts.append(lidLowEndJnt)
 
                     for i, s in enumerate(upLidCrvPointList):
@@ -1130,10 +1137,10 @@ class controls(setLayouts):
                             n=s.replace('Space', 'End'))
                         if self.judge_LR == 'l_':
                             cmds.setAttr(lidLowSpaceJnt + '.jointOrientX', 180)
-                            cmds.setAttr(lidLowSpaceJnt + '.jointOrientY', 0)
-                        if self.judge_LR == 'r_':
-                            cmds.setAttr(lidLowSpaceJnt + '.jointOrientX', 180)
-                            cmds.setAttr(lidLowSpaceJnt + '.jointOrientY', 0)
+                            cmds.setAttr(lidLowSpaceJnt + '.jointOrientY', 180)
+                        elif self.judge_LR == 'r_':
+                            cmds.setAttr(lidLowSpaceJnt + '.jointOrientX', 0)
+                            cmds.setAttr(lidLowSpaceJnt + '.jointOrientY', 180)
 
                         sortLowSkinCrvJnts.append(lidLowEndJnt)
 
