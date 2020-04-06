@@ -1002,6 +1002,8 @@ class controls(setLayouts):
                     lidUpRoot_ctl = cmds.circle(c=(0, 0, tzOffset), nr=(0, 0, 1), sw=360, r=ctlsSize,
                                                 d=3, ut=0, tol=0.01, s=8, ch=False,
                                                 n=self.judge_LR + self.name + 'UpRoot_ctl')
+                    cmds.setAttr(cmds.listRelatives(lidUpRoot_ctl[0])[0] + '.overrideEnabled', True)
+                    cmds.setAttr(cmds.listRelatives(lidUpRoot_ctl[0])[0] + '.overrideColor', 6)
                     lidUpRootCtlGrp = cmds.group(lidUpRoot_ctl, n=self.judge_LR + self.name + 'UpRootCtl_grp')
                     for Cvs in range(4, 7):
                         cmds.xform(lidUpRoot_ctl[0] + '.cv[%s]' % Cvs, ws=True, t=(
@@ -1062,6 +1064,8 @@ class controls(setLayouts):
 
                     lidLowRoot_ctl = cmds.circle(c=(0, 0, tzOffset), nr=(0, 0, 1), sw=360, r=ctlsSize,
                                                  d=3, ut=0, tol=0.01, s=8, ch=False, n=self.judge_LR+self.name+'LowRoot_ctl')
+                    cmds.setAttr(cmds.listRelatives(lidLowRoot_ctl[0])[0] + '.overrideEnabled', True)
+                    cmds.setAttr(cmds.listRelatives(lidLowRoot_ctl[0])[0] + '.overrideColor', 6)
                     lidLowRootCtlGrp = cmds.group(lidLowRoot_ctl, n=self.judge_LR+self.name+'LowRootCtl_grp')
                     for Cvs in range(4, 7):
                         cmds.xform(lidLowRoot_ctl[0] + '.cv[%s]' % Cvs, ws=True, t=(
@@ -1158,6 +1162,8 @@ class controls(setLayouts):
                     lidUpRoot_ctl = cmds.circle(c=(0, 0, tzOffset), nr=(0, 0, 1), sw=360, r=ctlsSize,
                                                 d=3, ut=0, tol=0.01, s=8, ch=False,
                                                 n=self.judge_LR + self.name + 'UpRoot_ctl')
+                    cmds.setAttr(cmds.listRelatives(lidUpRoot_ctl[0])[0] + '.overrideEnabled', True)
+                    cmds.setAttr(cmds.listRelatives(lidUpRoot_ctl[0])[0] + '.overrideColor', 13)
                     lidUpRootCtlGrp = cmds.group(lidUpRoot_ctl, n=self.judge_LR + self.name + 'UpRootCtl_grp')
                     for Cvs in range(0, 3):
                         cmds.xform(lidUpRoot_ctl[0] + '.cv[%s]' % Cvs, ws=True, t=(
@@ -1225,6 +1231,8 @@ class controls(setLayouts):
                     lidLowRoot_ctl = cmds.circle(c=(0, 0, tzOffset), nr=(0, 0, 1), sw=360, r=ctlsSize,
                                                  d=3, ut=0, tol=0.01, s=8, ch=False,
                                                  n=self.judge_LR + self.name + 'LowRoot_ctl')
+                    cmds.setAttr(cmds.listRelatives(lidLowRoot_ctl[0])[0] + '.overrideEnabled', True)
+                    cmds.setAttr(cmds.listRelatives(lidLowRoot_ctl[0])[0] + '.overrideColor', 13)
                     lidLowRootCtlGrp = cmds.group(lidLowRoot_ctl, n=self.judge_LR + self.name + 'LowRootCtl_grp')
                     for Cvs in range(0, 3):
                         cmds.xform(lidLowRoot_ctl[0] + '.cv[%s]' % Cvs, ws=True, t=(
@@ -2267,6 +2275,9 @@ class controls(setLayouts):
                     lidUpRoot_ctl = cmds.circle(c=(0, 0, tzOffset), nr=(0, 0, 1), sw=360, r=ctlsSize,
                                                 d=3, ut=0, tol=0.01, s=8, ch=False,
                                                 n='l_' + self.name + 'UpRoot_ctl')
+                    cmds.setAttr(cmds.listRelatives(lidUpRoot_ctl[0])[0]+'.overrideEnabled', True)
+                    cmds.setAttr(cmds.listRelatives(lidUpRoot_ctl[0])[0] + '.overrideColor', 6)
+
                     lidUpRootCtlGrp = cmds.group(lidUpRoot_ctl, n='l_' + self.name + 'UpRootCtl_grp')
                     for Cvs in range(4, 7):
                         cmds.xform(lidUpRoot_ctl[0] + '.cv[%s]' % Cvs, ws=True, t=(
@@ -2330,6 +2341,8 @@ class controls(setLayouts):
                     lidLowRoot_ctl = cmds.circle(c=(0, 0, tzOffset), nr=(0, 0, 1), sw=360, r=ctlsSize,
                                                  d=3, ut=0, tol=0.01, s=8, ch=False,
                                                  n='l_' + self.name + 'LowRoot_ctl')
+                    cmds.setAttr(cmds.listRelatives(lidLowRoot_ctl[0])[0] + '.overrideEnabled', True)
+                    cmds.setAttr(cmds.listRelatives(lidLowRoot_ctl[0])[0] + '.overrideColor', 6)
                     lidLowRootCtlGrp = cmds.group(lidLowRoot_ctl, n='l_' + self.name + 'LowRootCtl_grp')
                     for Cvs in range(4, 7):
                         cmds.xform(lidLowRoot_ctl[0] + '.cv[%s]' % Cvs, ws=True, t=(
@@ -2434,6 +2447,8 @@ class controls(setLayouts):
                     lidUpRoot_ctl = cmds.circle(c=(0, 0, tzOffset), nr=(0, 0, 1), sw=360, r=ctlsSize,
                                                 d=3, ut=0, tol=0.01, s=8, ch=False,
                                                 n='r_' + self.name + 'UpRoot_ctl')
+                    cmds.setAttr(cmds.listRelatives(lidUpRoot_ctl[0])[0] + '.overrideEnabled', True)
+                    cmds.setAttr(cmds.listRelatives(lidUpRoot_ctl[0])[0] + '.overrideColor', 13)
                     lidUpRootCtlGrp = cmds.group(lidUpRoot_ctl, n='r_' + self.name + 'UpRootCtl_grp')
                     for Cvs in range(4, 7):
                         cmds.xform(lidUpRoot_ctl[0] + '.cv[%s]' % Cvs, ws=True, t=(
@@ -2507,6 +2522,8 @@ class controls(setLayouts):
                     lidLowRoot_ctl = cmds.circle(c=(0, 0, tzOffset), nr=(0, 0, 1), sw=360, r=ctlsSize,
                                                  d=3, ut=0, tol=0.01, s=8, ch=False,
                                                  n='r_' + self.name + 'LowRoot_ctl')
+                    cmds.setAttr(cmds.listRelatives(lidLowRoot_ctl[0])[0] + '.overrideEnabled', True)
+                    cmds.setAttr(cmds.listRelatives(lidLowRoot_ctl[0])[0] + '.overrideColor', 13)
                     lidLowRootCtlGrp = cmds.group(lidLowRoot_ctl, n='r_' + self.name + 'LowRootCtl_grp')
                     for Cvs in range(4, 7):
                         cmds.xform(lidLowRoot_ctl[0] + '.cv[%s]' % Cvs, ws=True, t=(
@@ -2620,6 +2637,8 @@ class controls(setLayouts):
                     lidUpRoot_ctl = cmds.circle(c=(0, 0, tzOffset), nr=(0, 0, 1), sw=360, r=ctlsSize,
                                                 d=3, ut=0, tol=0.01, s=8, ch=False,
                                                 n='r_' + self.name + 'UpRoot_ctl')
+                    cmds.setAttr(cmds.listRelatives(lidUpRoot_ctl[0])[0] + '.overrideEnabled', True)
+                    cmds.setAttr(cmds.listRelatives(lidUpRoot_ctl[0])[0] + '.overrideColor', 13)
                     lidUpRootCtlGrp = cmds.group(lidUpRoot_ctl, n='r_' + self.name + 'UpRootCtl_grp')
                     for Cvs in range(0, 3):
                         cmds.xform(lidUpRoot_ctl[0] + '.cv[%s]' % Cvs, ws=True, t=(
@@ -2687,6 +2706,8 @@ class controls(setLayouts):
                     lidLowRoot_ctl = cmds.circle(c=(0, 0, tzOffset), nr=(0, 0, 1), sw=360, r=ctlsSize,
                                                  d=3, ut=0, tol=0.01, s=8, ch=False,
                                                  n='r_' + self.name + 'LowRoot_ctl')
+                    cmds.setAttr(cmds.listRelatives(lidLowRoot_ctl[0])[0] + '.overrideEnabled', True)
+                    cmds.setAttr(cmds.listRelatives(lidLowRoot_ctl[0])[0] + '.overrideColor', 13)
                     lidLowRootCtlGrp = cmds.group(lidLowRoot_ctl, n='r_' + self.name + 'LowRootCtl_grp')
                     for Cvs in range(0, 3):
                         cmds.xform(lidLowRoot_ctl[0] + '.cv[%s]' % Cvs, ws=True, t=(
@@ -2789,6 +2810,8 @@ class controls(setLayouts):
                     lidUpRoot_ctl = cmds.circle(c=(0, 0, tzOffset), nr=(0, 0, 1), sw=360, r=ctlsSize,
                                                 d=3, ut=0, tol=0.01, s=8, ch=False,
                                                 n='l_' + self.name + 'UpRoot_ctl')
+                    cmds.setAttr(cmds.listRelatives(lidUpRoot_ctl[0])[0] + '.overrideEnabled', True)
+                    cmds.setAttr(cmds.listRelatives(lidUpRoot_ctl[0])[0] + '.overrideColor', 6)
                     lidUpRootCtlGrp = cmds.group(lidUpRoot_ctl, n='l_' + self.name + 'UpRootCtl_grp')
                     for Cvs in range(0, 3):
                         cmds.xform(lidUpRoot_ctl[0] + '.cv[%s]' % Cvs, ws=True, t=(
@@ -2856,6 +2879,8 @@ class controls(setLayouts):
                     lidLowRoot_ctl = cmds.circle(c=(0, 0, tzOffset), nr=(0, 0, 1), sw=360, r=ctlsSize,
                                                  d=3, ut=0, tol=0.01, s=8, ch=False,
                                                  n='l_' + self.name + 'LowRoot_ctl')
+                    cmds.setAttr(cmds.listRelatives(lidLowRoot_ctl[0])[0] + '.overrideEnabled', True)
+                    cmds.setAttr(cmds.listRelatives(lidLowRoot_ctl[0])[0] + '.overrideColor', 6)
                     lidLowRootCtlGrp = cmds.group(lidLowRoot_ctl, n='l_' + self.name + 'LowRootCtl_grp')
                     for Cvs in range(0, 3):
                         cmds.xform(lidLowRoot_ctl[0] + '.cv[%s]' % Cvs, ws=True, t=(
