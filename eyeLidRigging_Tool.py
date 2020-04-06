@@ -2,6 +2,7 @@ import maya.cmds as cmds
 import maya.mel as mel
 import maya.api.OpenMaya as api
 
+
 class eyeLidRig(object):
     WindowName = 'eyeLidRiggingTool'
     if cmds.window(WindowName, q=True, ex=True):
@@ -454,14 +455,14 @@ class controls(setLayouts):
                                                      n=self.judge_LR + self.name + 'LowPath_crv')
 
                     self.upLidCrvPointList = [self.judge_LR + self.name + 'InCornerSpace_jnt', '',
-                                         self.judge_LR + self.name + 'InUpSpace_jnt',
-                                         self.judge_LR + self.name + 'MidUpSpace_jnt',
-                                         self.judge_LR + self.name + 'OutUpSpace_jnt', '',
-                                         self.judge_LR + self.name + 'OutCornerSpace_jnt']
+                                              self.judge_LR + self.name + 'InUpSpace_jnt',
+                                              self.judge_LR + self.name + 'MidUpSpace_jnt',
+                                              self.judge_LR + self.name + 'OutUpSpace_jnt', '',
+                                              self.judge_LR + self.name + 'OutCornerSpace_jnt']
                     self.LowLidCrvPointList = ['', '', self.judge_LR + self.name + 'InLowSpace_jnt',
-                                          self.judge_LR + self.name + 'MidLowSpace_jnt',
-                                          self.judge_LR + self.name + 'OutLowSpace_jnt', '',
-                                          '']
+                                               self.judge_LR + self.name + 'MidLowSpace_jnt',
+                                               self.judge_LR + self.name + 'OutLowSpace_jnt', '',
+                                               '']
 
                     cmds.parent(self.lidUpPathCv, lidLowPathCv, self.lidOtherGrp)
 
@@ -618,306 +619,311 @@ class controls(setLayouts):
                             cmds.parent(self.LowLidCrvPointList[i], self.lidLowORootJnt)
                             cmds.parent(self.lidLowORootJnt, eyeLidSpaceJntsGrp)
 
-                cmds.skinCluster(sortUpSkinCrvJnts, self.judge_LR + self.name + 'UpPath_crv', tsb=True,
-                                 n=self.judge_LR + self.name + 'UpCrv_sct')
-                cmds.skinPercent(self.judge_LR + self.name + 'UpCrv_sct',
-                                 self.judge_LR + self.name + 'UpPath_crv.cv[1]',
-                                 transformValue=[(sortUpSkinCrvJnts[0], 0.6), (sortUpSkinCrvJnts[1], 0.4)])
-                cmds.skinPercent(self.judge_LR + self.name + 'UpCrv_sct',
-                                 self.judge_LR + self.name + 'UpPath_crv.cv[5]',
-                                 transformValue=[(sortUpSkinCrvJnts[3], 0.4), (sortUpSkinCrvJnts[4], 0.6)])
+                    cmds.skinCluster(sortUpSkinCrvJnts, self.judge_LR + self.name + 'UpPath_crv', tsb=True,
+                                     n=self.judge_LR + self.name + 'UpCrv_sct')
+                    cmds.skinPercent(self.judge_LR + self.name + 'UpCrv_sct',
+                                     self.judge_LR + self.name + 'UpPath_crv.cv[1]',
+                                     transformValue=[(sortUpSkinCrvJnts[0], 0.6), (sortUpSkinCrvJnts[1], 0.4)])
+                    cmds.skinPercent(self.judge_LR + self.name + 'UpCrv_sct',
+                                     self.judge_LR + self.name + 'UpPath_crv.cv[5]',
+                                     transformValue=[(sortUpSkinCrvJnts[3], 0.4), (sortUpSkinCrvJnts[4], 0.6)])
 
-                cmds.skinCluster(sortUpSkinCrvJnts[0], sortLowSkinCrvJnts, sortUpSkinCrvJnts[4],
-                                 self.judge_LR + self.name + 'LowPath_crv', tsb=True,
-                                 n=self.judge_LR + self.name + 'LowCrv_sct')
-                cmds.skinPercent(self.judge_LR + self.name + 'LowCrv_sct',
-                                 self.judge_LR + self.name + 'LowPath_crv.cv[1]',
-                                 transformValue=[(sortUpSkinCrvJnts[0], 0.6), (sortLowSkinCrvJnts[0], 0.4)])
-                cmds.skinPercent(self.judge_LR + self.name + 'LowCrv_sct',
-                                 self.judge_LR + self.name + 'LowPath_crv.cv[5]',
-                                 transformValue=[(sortUpSkinCrvJnts[4], 0.6), (sortLowSkinCrvJnts[2], 0.4)])
+                    cmds.skinCluster(sortUpSkinCrvJnts[0], sortLowSkinCrvJnts, sortUpSkinCrvJnts[4],
+                                     self.judge_LR + self.name + 'LowPath_crv', tsb=True,
+                                     n=self.judge_LR + self.name + 'LowCrv_sct')
+                    cmds.skinPercent(self.judge_LR + self.name + 'LowCrv_sct',
+                                     self.judge_LR + self.name + 'LowPath_crv.cv[1]',
+                                     transformValue=[(sortUpSkinCrvJnts[0], 0.6), (sortLowSkinCrvJnts[0], 0.4)])
+                    cmds.skinPercent(self.judge_LR + self.name + 'LowCrv_sct',
+                                     self.judge_LR + self.name + 'LowPath_crv.cv[5]',
+                                     transformValue=[(sortUpSkinCrvJnts[4], 0.6), (sortLowSkinCrvJnts[2], 0.4)])
 
-                MlidUpCrvList = api.MSelectionList()
-                MlidUpCrvList.add(self.judge_LR + self.name + 'MainLidUp_crv')
-                MlidUpCrvList.add(self.judge_LR + self.name + 'UpPath_crv')
-                MlidUpCrvDag = MlidUpCrvList.getDagPath(0)
-                MlidUpPathDag = MlidUpCrvList.getDagPath(1)
-                MFn_lipUpCrv = api.MFnNurbsCurve(MlidUpCrvDag)
-                MFn_lipUpPathCrv = api.MFnNurbsCurve(MlidUpPathDag)
-                lidUpCvPosList = [index for index in MFn_lipUpCrv.cvPositions()]
-                lidUpAimLocsGrp = cmds.group(em=True, n=self.judge_LR + self.name + 'UpAimLocs_grp')
-                cmds.setAttr(lidUpAimLocsGrp + '.v', False)
-                cmds.parent(lidUpAimLocsGrp, self.lidOtherGrp)
-                getArclen = (cmds.arclen(self.judge_LR + self.name + 'UpPath_crv') * 0.001)
+                    MlidUpCrvList = api.MSelectionList()
+                    MlidUpCrvList.add(self.judge_LR + self.name + 'MainLidUp_crv')
+                    MlidUpCrvList.add(self.judge_LR + self.name + 'UpPath_crv')
+                    MlidUpCrvDag = MlidUpCrvList.getDagPath(0)
+                    MlidUpPathDag = MlidUpCrvList.getDagPath(1)
+                    MFn_lipUpCrv = api.MFnNurbsCurve(MlidUpCrvDag)
+                    MFn_lipUpPathCrv = api.MFnNurbsCurve(MlidUpPathDag)
+                    lidUpCvPosList = [index for index in MFn_lipUpCrv.cvPositions()]
+                    lidUpAimLocsGrp = cmds.group(em=True, n=self.judge_LR + self.name + 'UpAimLocs_grp')
+                    cmds.setAttr(lidUpAimLocsGrp + '.v', False)
+                    cmds.parent(lidUpAimLocsGrp, self.lidOtherGrp)
+                    getArclen = (cmds.arclen(self.judge_LR + self.name + 'UpPath_crv') * 0.001)
 
-                lidUpTargetLocList = []
-                for i, Mpoints in enumerate(lidUpCvPosList):
-                    getLidUpCrvdisToPoint = MFn_lipUpPathCrv.distanceToPoint(Mpoints, api.MSpace.kObject)
-                    getUpCrvParam = MFn_lipUpPathCrv.getParamAtPoint(Mpoints, getLidUpCrvdisToPoint + getArclen,
-                                                                     api.MSpace.kObject)
-                    aimUpLoc = cmds.spaceLocator(n=self.judge_LR + self.name + 'Aim%sUp_loc' % i)
-                    lidUpTargetLocList.append(aimUpLoc[0])
-                    cmds.setAttr(cmds.listRelatives(aimUpLoc[0])[0] + '.localScale', 0.01, 0.01, 0.01)
-                    aimUpGrp = cmds.group(aimUpLoc, n=self.judge_LR + self.name + 'Aim%sUpLoc_grp' % i)
-                    lidUpPci = cmds.createNode('pointOnCurveInfo', n=self.judge_LR + self.name + 'Aim%s_pci' % i)
+                    lidUpTargetLocList = []
+                    for i, Mpoints in enumerate(lidUpCvPosList):
+                        getLidUpCrvdisToPoint = MFn_lipUpPathCrv.distanceToPoint(Mpoints, api.MSpace.kObject)
+                        getUpCrvParam = MFn_lipUpPathCrv.getParamAtPoint(Mpoints, getLidUpCrvdisToPoint + getArclen,
+                                                                         api.MSpace.kObject)
+                        aimUpLoc = cmds.spaceLocator(n=self.judge_LR + self.name + 'Aim%sUp_loc' % i)
+                        lidUpTargetLocList.append(aimUpLoc[0])
+                        cmds.setAttr(cmds.listRelatives(aimUpLoc[0])[0] + '.localScale', 0.01, 0.01, 0.01)
+                        aimUpGrp = cmds.group(aimUpLoc, n=self.judge_LR + self.name + 'Aim%sUpLoc_grp' % i)
+                        lidUpPci = cmds.createNode('pointOnCurveInfo', n=self.judge_LR + self.name + 'Aim%s_pci' % i)
 
-                    cmds.connectAttr(cmds.listRelatives(self.judge_LR + self.name + 'UpPath_crv')[0] + '.worldSpace[0]',
-                                     lidUpPci + '.inputCurve')
-                    cmds.setAttr(lidUpPci + '.parameter', getUpCrvParam)
-                    cmds.connectAttr(lidUpPci + '.positionX', aimUpGrp + '.translateX')
-                    cmds.connectAttr(lidUpPci + '.positionY', aimUpGrp + '.translateY')
-                    cmds.connectAttr(lidUpPci + '.positionZ', aimUpGrp + '.translateZ')
-                    cmds.parent(aimUpGrp, lidUpAimLocsGrp)
-                MlidLowCrvList = api.MSelectionList()
-                MlidLowCrvList.add(self.judge_LR + self.name + 'MainLidLow_crv')
-                MlidLowCrvList.add(self.judge_LR + self.name + 'LowPath_crv')
-                MlidLowCrvDag = MlidLowCrvList.getDagPath(0)
-                MlidLowPathDag = MlidLowCrvList.getDagPath(1)
-                MFn_lipLowCrv = api.MFnNurbsCurve(MlidLowCrvDag)
-                MFn_lipLowPathCrv = api.MFnNurbsCurve(MlidLowPathDag)
-                lidLowCvPosList = [index for index in MFn_lipLowCrv.cvPositions()]
-                lidLowAimLocsGrp = cmds.group(em=True, n=self.judge_LR + self.name + 'LowAimLocs_grp')
-                cmds.setAttr(lidLowAimLocsGrp + '.v', False)
-                cmds.parent(lidLowAimLocsGrp, self.lidOtherGrp)
+                        cmds.connectAttr(
+                            cmds.listRelatives(self.judge_LR + self.name + 'UpPath_crv')[0] + '.worldSpace[0]',
+                            lidUpPci + '.inputCurve')
+                        cmds.setAttr(lidUpPci + '.parameter', getUpCrvParam)
+                        cmds.connectAttr(lidUpPci + '.positionX', aimUpGrp + '.translateX')
+                        cmds.connectAttr(lidUpPci + '.positionY', aimUpGrp + '.translateY')
+                        cmds.connectAttr(lidUpPci + '.positionZ', aimUpGrp + '.translateZ')
+                        cmds.parent(aimUpGrp, lidUpAimLocsGrp)
+                    MlidLowCrvList = api.MSelectionList()
+                    MlidLowCrvList.add(self.judge_LR + self.name + 'MainLidLow_crv')
+                    MlidLowCrvList.add(self.judge_LR + self.name + 'LowPath_crv')
+                    MlidLowCrvDag = MlidLowCrvList.getDagPath(0)
+                    MlidLowPathDag = MlidLowCrvList.getDagPath(1)
+                    MFn_lipLowCrv = api.MFnNurbsCurve(MlidLowCrvDag)
+                    MFn_lipLowPathCrv = api.MFnNurbsCurve(MlidLowPathDag)
+                    lidLowCvPosList = [index for index in MFn_lipLowCrv.cvPositions()]
+                    lidLowAimLocsGrp = cmds.group(em=True, n=self.judge_LR + self.name + 'LowAimLocs_grp')
+                    cmds.setAttr(lidLowAimLocsGrp + '.v', False)
+                    cmds.parent(lidLowAimLocsGrp, self.lidOtherGrp)
 
-                lidLowTargetLocList = []
-                for i, Mpoints in enumerate(lidLowCvPosList):
-                    if i == 0 or i == len(lidLowCvPosList) - 1:
-                        continue
-                    getLidLowCrvdisToPoint = MFn_lipLowPathCrv.distanceToPoint(Mpoints, api.MSpace.kObject)
-                    getLowCrvParam = MFn_lipLowPathCrv.getParamAtPoint(Mpoints, getLidLowCrvdisToPoint + getArclen,
-                                                                       api.MSpace.kObject)
-                    aimLowLoc = cmds.spaceLocator(n=self.judge_LR + self.name + 'Aim%sLow_loc' % i)
-                    lidLowTargetLocList.append(aimLowLoc[0])
-                    cmds.setAttr(cmds.listRelatives(aimLowLoc[0])[0] + '.localScale', 0.01, 0.01, 0.01)
-                    aimLowGrp = cmds.group(aimLowLoc, n=self.judge_LR + self.name + 'Aim%sLowLoc_grp' % i)
-                    lidLowPci = cmds.createNode('pointOnCurveInfo', n=self.judge_LR + self.name + 'Aim%s_pci' % i)
+                    lidLowTargetLocList = []
+                    for i, Mpoints in enumerate(lidLowCvPosList):
+                        if i == 0 or i == len(lidLowCvPosList) - 1:
+                            continue
+                        getLidLowCrvdisToPoint = MFn_lipLowPathCrv.distanceToPoint(Mpoints, api.MSpace.kObject)
+                        getLowCrvParam = MFn_lipLowPathCrv.getParamAtPoint(Mpoints, getLidLowCrvdisToPoint + getArclen,
+                                                                           api.MSpace.kObject)
+                        aimLowLoc = cmds.spaceLocator(n=self.judge_LR + self.name + 'Aim%sLow_loc' % i)
+                        lidLowTargetLocList.append(aimLowLoc[0])
+                        cmds.setAttr(cmds.listRelatives(aimLowLoc[0])[0] + '.localScale', 0.01, 0.01, 0.01)
+                        aimLowGrp = cmds.group(aimLowLoc, n=self.judge_LR + self.name + 'Aim%sLowLoc_grp' % i)
+                        lidLowPci = cmds.createNode('pointOnCurveInfo', n=self.judge_LR + self.name + 'Aim%s_pci' % i)
 
-                    cmds.connectAttr(
-                        cmds.listRelatives(self.judge_LR + self.name + 'LowPath_crv')[0] + '.worldSpace[0]',
-                        lidLowPci + '.inputCurve')
-                    cmds.setAttr(lidLowPci + '.parameter', getLowCrvParam)
-                    cmds.connectAttr(lidLowPci + '.positionX', aimLowGrp + '.translateX')
-                    cmds.connectAttr(lidLowPci + '.positionY', aimLowGrp + '.translateY')
-                    cmds.connectAttr(lidLowPci + '.positionZ', aimLowGrp + '.translateZ')
-                    cmds.parent(aimLowGrp, lidLowAimLocsGrp)
+                        cmds.connectAttr(
+                            cmds.listRelatives(self.judge_LR + self.name + 'LowPath_crv')[0] + '.worldSpace[0]',
+                            lidLowPci + '.inputCurve')
+                        cmds.setAttr(lidLowPci + '.parameter', getLowCrvParam)
+                        cmds.connectAttr(lidLowPci + '.positionX', aimLowGrp + '.translateX')
+                        cmds.connectAttr(lidLowPci + '.positionY', aimLowGrp + '.translateY')
+                        cmds.connectAttr(lidLowPci + '.positionZ', aimLowGrp + '.translateZ')
+                        cmds.parent(aimLowGrp, lidLowAimLocsGrp)
 
-                cmds.delete(self.OtherCrvGrp)
-                cmds.select(cl=True)
-
-                lidOrgGrp = cmds.group(em=True, n=self.judge_LR + '%sOrgJnts_grp' % self.name)
-                cmds.setAttr(lidOrgGrp + '.v', False)
-                lidSkinJntsGrp = cmds.group(em=True, n=self.judge_LR + '%sSkinJnts_grp' % self.name)
-                cmds.setAttr(lidSkinJntsGrp + '.v', False)
-
-                lidUpOrgList = []
-                lidLowOrgList = []
-
-                lidUpSkinJntsList = []
-                lidLowSkinJntsList = []
-
-                lidUpSkinEndJntsList = []
-                lidLowSkinEndJntsList = []
-
-                for i, aimLocIndex in enumerate(lidUpTargetLocList):
-                    if i == 0 or i == len(lidUpTargetLocList) - 1:
-                        continue
+                    cmds.delete(self.OtherCrvGrp)
                     cmds.select(cl=True)
-                    lidUpOrgJnt = cmds.joint(n=aimLocIndex.replace('_loc', 'Org_jnt'),
-                                             p=cmds.xform(self.judge_LR + 'eyeBall_jnt', q=True, ws=True, t=True))
-                    lidUpOrgList.append(lidUpOrgJnt)
-                    cmds.select(cl=True)
-                    lidUpOrgEndJnt = cmds.joint(n=aimLocIndex.replace('_loc', 'OrgEnd_jnt'),
-                                                p=cmds.xform(aimLocIndex, q=True, ws=True, t=True))
-                    cmds.select(cl=True)
-                    lidUpSkinRootJnt = cmds.joint(
-                        n=self.judge_LR + '%sUpLidSkinRoot%s_jnt' % (self.name, str(i).zfill(2)),
-                        p=cmds.xform(self.judge_LR + 'eyeBall_jnt', q=True, ws=True, t=True))
-                    cmds.setAttr(lidUpSkinRootJnt + '.drawStyle', 2)
 
-                    cmds.select(cl=True)
-                    lidUpSkinEndJnt = cmds.joint(
-                        n=self.judge_LR + '%sUpLidSkinEnd%s_jnt' % (self.name, str(i).zfill(2)),
-                        p=cmds.xform(aimLocIndex, q=True, ws=True, t=True))
-                    lidUpSkinEndJntsList.append(lidUpSkinEndJnt)
-                    cmds.setAttr(lidUpSkinEndJnt + '.radius', 0.1)
+                    lidOrgGrp = cmds.group(em=True, n=self.judge_LR + '%sOrgJnts_grp' % self.name)
+                    cmds.setAttr(lidOrgGrp + '.v', False)
+                    lidSkinJntsGrp = cmds.group(em=True, n=self.judge_LR + '%sSkinJnts_grp' % self.name)
+                    cmds.setAttr(lidSkinJntsGrp + '.v', False)
 
-                    lidUpSkinJntsList.append(lidUpSkinRootJnt)
-                    cmds.delete(
+                    lidUpOrgList = []
+                    lidLowOrgList = []
+
+                    lidUpSkinJntsList = []
+                    lidLowSkinJntsList = []
+
+                    lidUpSkinEndJntsList = []
+                    lidLowSkinEndJntsList = []
+
+                    for i, aimLocIndex in enumerate(lidUpTargetLocList):
+                        if i == 0 or i == len(lidUpTargetLocList) - 1:
+                            continue
+                        cmds.select(cl=True)
+                        lidUpOrgJnt = cmds.joint(n=aimLocIndex.replace('_loc', 'Org_jnt'),
+                                                 p=cmds.xform(self.judge_LR + 'eyeBall_jnt', q=True, ws=True, t=True))
+                        lidUpOrgList.append(lidUpOrgJnt)
+                        cmds.select(cl=True)
+                        lidUpOrgEndJnt = cmds.joint(n=aimLocIndex.replace('_loc', 'OrgEnd_jnt'),
+                                                    p=cmds.xform(aimLocIndex, q=True, ws=True, t=True))
+                        cmds.select(cl=True)
+                        lidUpSkinRootJnt = cmds.joint(
+                            n=self.judge_LR + '%sUpLidSkinRoot%s_jnt' % (self.name, str(i).zfill(2)),
+                            p=cmds.xform(self.judge_LR + 'eyeBall_jnt', q=True, ws=True, t=True))
+                        cmds.setAttr(lidUpSkinRootJnt + '.drawStyle', 2)
+
+                        cmds.select(cl=True)
+                        lidUpSkinEndJnt = cmds.joint(
+                            n=self.judge_LR + '%sUpLidSkinEnd%s_jnt' % (self.name, str(i).zfill(2)),
+                            p=cmds.xform(aimLocIndex, q=True, ws=True, t=True))
+                        lidUpSkinEndJntsList.append(lidUpSkinEndJnt)
+                        cmds.setAttr(lidUpSkinEndJnt + '.radius', 0.1)
+
+                        lidUpSkinJntsList.append(lidUpSkinRootJnt)
+                        cmds.delete(
+                            cmds.aimConstraint(aimLocIndex, lidUpOrgJnt, offset=(0, 0, 0), weight=1,
+                                               aimVector=(1, 0, 0),
+                                               upVector=OrgLowVec,
+                                               worldUpType=('objectrotation'), worldUpVector=(1, 0, 0),
+                                               worldUpObject=(self.lidUpMRootJnt)))
+                        cmds.makeIdentity(lidUpOrgJnt, apply=True, t=0, r=1, s=0, n=0, pn=1)
+                        cmds.parent(lidUpOrgEndJnt, lidUpOrgJnt)
                         cmds.aimConstraint(aimLocIndex, lidUpOrgJnt, offset=(0, 0, 0), weight=1, aimVector=(1, 0, 0),
                                            upVector=OrgLowVec,
                                            worldUpType=('objectrotation'), worldUpVector=(1, 0, 0),
-                                           worldUpObject=(self.lidUpMRootJnt)))
-                    cmds.makeIdentity(lidUpOrgJnt, apply=True, t=0, r=1, s=0, n=0, pn=1)
-                    cmds.parent(lidUpOrgEndJnt, lidUpOrgJnt)
-                    cmds.aimConstraint(aimLocIndex, lidUpOrgJnt, offset=(0, 0, 0), weight=1, aimVector=(1, 0, 0),
-                                       upVector=OrgLowVec,
-                                       worldUpType=('objectrotation'), worldUpVector=(1, 0, 0),
-                                       worldUpObject=(self.lidUpMRootJnt), n=lidUpOrgJnt.replace('_jnt', '_aim'))
-                    cmds.parent(lidUpOrgJnt, lidOrgGrp)
+                                           worldUpObject=(self.lidUpMRootJnt), n=lidUpOrgJnt.replace('_jnt', '_aim'))
+                        cmds.parent(lidUpOrgJnt, lidOrgGrp)
 
-                    cmds.setAttr(lidUpSkinEndJnt + '.jointOrient', 0, 0, 0)
-                    cmds.setAttr(lidUpSkinRootJnt + '.jointOrient', cmds.getAttr(lidUpOrgJnt + '.jointOrientX'),
-                                 cmds.getAttr(lidUpOrgJnt + '.jointOrientY'),
-                                 cmds.getAttr(lidUpOrgJnt + '.jointOrientZ'))
-                    cmds.parent(lidUpSkinEndJnt, lidUpSkinRootJnt)
-                    cmds.parent(lidUpSkinRootJnt, lidSkinJntsGrp)
+                        cmds.setAttr(lidUpSkinEndJnt + '.jointOrient', 0, 0, 0)
+                        cmds.setAttr(lidUpSkinRootJnt + '.jointOrient', cmds.getAttr(lidUpOrgJnt + '.jointOrientX'),
+                                     cmds.getAttr(lidUpOrgJnt + '.jointOrientY'),
+                                     cmds.getAttr(lidUpOrgJnt + '.jointOrientZ'))
+                        cmds.parent(lidUpSkinEndJnt, lidUpSkinRootJnt)
+                        cmds.parent(lidUpSkinRootJnt, lidSkinJntsGrp)
 
-                for i, aimLocIndex in enumerate(lidLowTargetLocList):
-                    cmds.select(cl=True)
-                    lidLowOrgJnt = cmds.joint(n=aimLocIndex.replace('_loc', 'Org_jnt'),
-                                              p=cmds.xform(self.judge_LR + 'eyeBall_jnt', q=True, ws=True, t=True))
-                    lidLowOrgList.append(lidLowOrgJnt)
-                    cmds.select(cl=True)
-                    lidLowOrgEndJnt = cmds.joint(n=aimLocIndex.replace('_loc', 'OrgEnd_jnt'),
-                                                 p=cmds.xform(aimLocIndex, q=True, ws=True, t=True))
+                    for i, aimLocIndex in enumerate(lidLowTargetLocList):
+                        cmds.select(cl=True)
+                        lidLowOrgJnt = cmds.joint(n=aimLocIndex.replace('_loc', 'Org_jnt'),
+                                                  p=cmds.xform(self.judge_LR + 'eyeBall_jnt', q=True, ws=True, t=True))
+                        lidLowOrgList.append(lidLowOrgJnt)
+                        cmds.select(cl=True)
+                        lidLowOrgEndJnt = cmds.joint(n=aimLocIndex.replace('_loc', 'OrgEnd_jnt'),
+                                                     p=cmds.xform(aimLocIndex, q=True, ws=True, t=True))
 
-                    cmds.select(cl=True)
-                    lidLowSkinRootJnt = cmds.joint(
-                        n=self.judge_LR + '%sLowLidSkinRoot%s_jnt' % (self.name, str(i + 1).zfill(2)),
-                        p=cmds.xform(self.judge_LR + 'eyeBall_jnt', q=True, ws=True, t=True))
-                    cmds.setAttr(lidLowSkinRootJnt + '.drawStyle', 2)
+                        cmds.select(cl=True)
+                        lidLowSkinRootJnt = cmds.joint(
+                            n=self.judge_LR + '%sLowLidSkinRoot%s_jnt' % (self.name, str(i + 1).zfill(2)),
+                            p=cmds.xform(self.judge_LR + 'eyeBall_jnt', q=True, ws=True, t=True))
+                        cmds.setAttr(lidLowSkinRootJnt + '.drawStyle', 2)
 
-                    cmds.select(cl=True)
-                    lidLowSkinEndJnt = cmds.joint(
-                        n=self.judge_LR + '%sLowLidSkinEnd%s_jnt' % (self.name, str(i + 1).zfill(2)),
-                        p=cmds.xform(aimLocIndex, q=True, ws=True, t=True))
-                    cmds.setAttr(lidLowSkinEndJnt + '.radius', 0.1)
+                        cmds.select(cl=True)
+                        lidLowSkinEndJnt = cmds.joint(
+                            n=self.judge_LR + '%sLowLidSkinEnd%s_jnt' % (self.name, str(i + 1).zfill(2)),
+                            p=cmds.xform(aimLocIndex, q=True, ws=True, t=True))
+                        cmds.setAttr(lidLowSkinEndJnt + '.radius', 0.1)
 
-                    lidLowSkinEndJntsList.append(lidLowSkinEndJnt)
-                    lidLowSkinJntsList.append(lidLowSkinRootJnt)
+                        lidLowSkinEndJntsList.append(lidLowSkinEndJnt)
+                        lidLowSkinJntsList.append(lidLowSkinRootJnt)
 
-                    cmds.delete(
+                        cmds.delete(
+                            cmds.aimConstraint(aimLocIndex, lidLowOrgJnt, offset=(0, 0, 0), weight=1,
+                                               aimVector=(1, 0, 0),
+                                               upVector=OrgUpVec,
+                                               worldUpType=('objectrotation'), worldUpVector=(1, 0, 0),
+                                               worldUpObject=(self.lidLowMRootJnt)))
+                        cmds.makeIdentity(lidLowOrgJnt, apply=True, t=0, r=1, s=0, n=0, pn=1)
+                        cmds.parent(lidLowOrgEndJnt, lidLowOrgJnt)
                         cmds.aimConstraint(aimLocIndex, lidLowOrgJnt, offset=(0, 0, 0), weight=1, aimVector=(1, 0, 0),
                                            upVector=OrgUpVec,
                                            worldUpType=('objectrotation'), worldUpVector=(1, 0, 0),
-                                           worldUpObject=(self.lidLowMRootJnt)))
-                    cmds.makeIdentity(lidLowOrgJnt, apply=True, t=0, r=1, s=0, n=0, pn=1)
-                    cmds.parent(lidLowOrgEndJnt, lidLowOrgJnt)
-                    cmds.aimConstraint(aimLocIndex, lidLowOrgJnt, offset=(0, 0, 0), weight=1, aimVector=(1, 0, 0),
-                                       upVector=OrgUpVec,
+                                           worldUpObject=(self.lidLowMRootJnt), n=lidLowOrgJnt.replace('_jnt', '_aim'))
+                        cmds.parent(lidLowOrgJnt, lidOrgGrp)
+
+                        cmds.setAttr(lidLowSkinEndJnt + '.jointOrient', 0, 0, 0)
+                        cmds.setAttr(lidLowSkinRootJnt + '.jointOrient', cmds.getAttr(lidLowOrgJnt + '.jointOrientX'),
+                                     cmds.getAttr(lidLowOrgJnt + '.jointOrientY'),
+                                     cmds.getAttr(lidLowOrgJnt + '.jointOrientZ'))
+                        cmds.parent(lidLowSkinEndJnt, lidLowSkinRootJnt)
+                        cmds.parent(lidLowSkinRootJnt, lidSkinJntsGrp)
+
+                    lidUpOctList = []
+                    lidLowOctList = []
+
+                    for i, lidUpSkinJnts in enumerate(lidUpSkinJntsList):
+                        lidUpOct = cmds.orientConstraint(lidUpOrgList[i], lidLowOrgList[i], lidUpSkinJnts,
+                                                         offset=(0, 0, 0), weight=1,
+                                                         n=self.judge_LR + '%sUpConstructor%s_oct' % (
+                                                             self.name, str(i + 1).zfill(2)))
+                        cmds.setAttr(lidUpOct[0] + '.interpType', 2)
+                        lidUpOctList.append(lidUpOct[0])
+
+                        lidLowOct = cmds.orientConstraint(lidLowOrgList[i], lidUpOrgList[i], lidLowSkinJntsList[i],
+                                                          offset=(0, 0, 0),
+                                                          weight=1,
+                                                          n=self.judge_LR + '%sLowConstructor%s_oct' % (
+                                                              self.name, str(i + 1).zfill(2)))
+                        cmds.setAttr(lidLowOct[0] + '.interpType', 2)
+                        lidLowOctList.append(lidLowOct[0])
+                    cmds.select(cl=True)
+
+                    lidBlinkRvs = cmds.createNode('reverse', n=self.judge_LR + '%slidBlink_rvs' % self.name)
+                    lidUpSRmv = cmds.createNode('remapValue', n=self.judge_LR + '%sUpLidStart_rmv' % self.name)
+                    lidUpERmv = cmds.createNode('remapValue', n=self.judge_LR + '%sUpLidEnd_rmv' % self.name)
+                    lidLowSRmv = cmds.createNode('remapValue', n=self.judge_LR + '%sLowLidStart_rmv' % self.name)
+                    lidLowERmv = cmds.createNode('remapValue', n=self.judge_LR + '%sLowLidEnd_rmv' % self.name)
+
+                    cmds.connectAttr(self.lidUpPathCv[0] + '.blink', lidUpSRmv + '.inputValue')
+                    cmds.connectAttr(self.lidUpPathCv[0] + '.blinkSize', lidUpSRmv + '.outputMax')
+                    cmds.connectAttr(self.lidUpPathCv[0] + '.blink', lidUpERmv + '.inputValue')
+                    cmds.connectAttr(self.lidUpPathCv[0] + '.blinkSize', lidBlinkRvs + '.inputX')
+                    cmds.connectAttr(lidBlinkRvs + '.outputX', lidUpERmv + '.outputMax')
+
+                    cmds.connectAttr(self.lidUpPathCv[0] + '.blink', lidLowSRmv + '.inputValue')
+                    cmds.connectAttr(lidBlinkRvs + '.outputX', lidLowSRmv + '.outputMax')
+                    cmds.connectAttr(self.lidUpPathCv[0] + '.blink', lidLowERmv + '.inputValue')
+                    cmds.connectAttr(self.lidUpPathCv[0] + '.blinkSize', lidLowERmv + '.outputMax')
+
+                    cmds.setAttr(lidUpSRmv + '.outputMin', 1)
+                    cmds.setAttr(lidLowSRmv + '.outputMin', 1)
+
+                    for i, indexUpOct in enumerate(lidUpOctList):
+                        cmds.connectAttr(lidUpSRmv + '.outValue', indexUpOct + '.' + lidUpOrgList[i] + 'W0')
+                        cmds.connectAttr(lidUpERmv + '.outValue', indexUpOct + '.' + lidLowOrgList[i] + 'W1')
+
+                    for i, indexLowOct in enumerate(lidLowOctList):
+                        cmds.connectAttr(lidLowSRmv + '.outValue', indexLowOct + '.' + lidLowOrgList[i] + 'W0')
+                        cmds.connectAttr(lidLowERmv + '.outValue', indexLowOct + '.' + lidUpOrgList[i] + 'W1')
+
+                    cmds.select(cl=True)
+                    lidInCSkinRootJnt = cmds.joint(n=self.judge_LR + '%sUpLidSkinRoot0_jnt' % self.name,
+                                                   p=cmds.xform(self.judge_LR + 'eyeBall_jnt', q=True, ws=True, t=True))
+                    cmds.setAttr(lidInCSkinRootJnt + '.drawStyle', 2)
+                    cmds.setAttr(lidInCSkinRootJnt + '.jointOrient',
+                                 cmds.getAttr(self.lidUpIcRootJnt + '.jointOrientX'),
+                                 cmds.getAttr(self.lidUpIcRootJnt + '.jointOrientY'),
+                                 cmds.getAttr(self.lidUpIcRootJnt + '.jointOrientZ'))
+                    cmds.delete(cmds.aimConstraint(lidUpTargetLocList[0], lidInCSkinRootJnt, offset=(0, 0, 0), weight=1,
+                                                   aimVector=(1, 0, 0),
+                                                   upVector=(0, 1, 0),
+                                                   worldUpType=('objectrotation'), worldUpVector=(1, 0, 0),
+                                                   worldUpObject=(self.lidUpMRootJnt),
+                                                   n=lidInCSkinRootJnt.replace('_jnt', '_aim')))
+                    cmds.makeIdentity(lidInCSkinRootJnt, apply=True, t=0, r=1, s=0, n=0, pn=1)
+
+                    cmds.select(cl=True)
+                    lidInCSkinEndJnt = cmds.joint(n=self.judge_LR + '%sUpLidSkinEnd0_jnt' % self.name,
+                                                  p=cmds.xform(lidUpTargetLocList[0], q=True, ws=True, t=True))
+                    cmds.parent(lidInCSkinEndJnt, lidInCSkinRootJnt)
+                    cmds.setAttr(lidInCSkinEndJnt + '.radius', 0.1)
+
+                    cmds.aimConstraint(lidUpTargetLocList[0], lidInCSkinRootJnt, offset=(0, 0, 0), weight=1,
+                                       aimVector=(1, 0, 0),
+                                       upVector=(0, 1, 0),
                                        worldUpType=('objectrotation'), worldUpVector=(1, 0, 0),
-                                       worldUpObject=(self.lidLowMRootJnt), n=lidLowOrgJnt.replace('_jnt', '_aim'))
-                    cmds.parent(lidLowOrgJnt, lidOrgGrp)
+                                       worldUpObject=(self.lidUpMRootJnt), n=lidInCSkinRootJnt.replace('_jnt', '_aim'))
 
-                    cmds.setAttr(lidLowSkinEndJnt + '.jointOrient', 0, 0, 0)
-                    cmds.setAttr(lidLowSkinRootJnt + '.jointOrient', cmds.getAttr(lidLowOrgJnt + '.jointOrientX'),
-                                 cmds.getAttr(lidLowOrgJnt + '.jointOrientY'),
-                                 cmds.getAttr(lidLowOrgJnt + '.jointOrientZ'))
-                    cmds.parent(lidLowSkinEndJnt, lidLowSkinRootJnt)
-                    cmds.parent(lidLowSkinRootJnt, lidSkinJntsGrp)
+                    cmds.select(cl=True)
+                    lidOutCSkinRootJnt = cmds.joint(
+                        n=self.judge_LR + '%sUpLidSkinRoot%s_jnt' % (self.name, len(lidUpTargetLocList) - 1),
+                        p=cmds.xform(self.judge_LR + 'eyeBall_jnt', q=True, ws=True, t=True))
+                    cmds.setAttr(lidOutCSkinRootJnt + '.drawStyle', 2)
 
-                lidUpOctList = []
-                lidLowOctList = []
+                    cmds.delete(
+                        cmds.aimConstraint(lidUpTargetLocList[-1], lidOutCSkinRootJnt, offset=(0, 0, 0), weight=1,
+                                           aimVector=(1, 0, 0),
+                                           upVector=(0, 1, 0),
+                                           worldUpType=('objectrotation'), worldUpVector=(1, 0, 0),
+                                           worldUpObject=(self.lidUpMRootJnt),
+                                           n=lidOutCSkinRootJnt.replace('_jnt', '_aim')))
+                    cmds.makeIdentity(lidOutCSkinRootJnt, apply=True, t=0, r=1, s=0, n=0, pn=1)
 
-                for i, lidUpSkinJnts in enumerate(lidUpSkinJntsList):
-                    lidUpOct = cmds.orientConstraint(lidUpOrgList[i], lidLowOrgList[i], lidUpSkinJnts,
-                                                     offset=(0, 0, 0), weight=1,
-                                                     n=self.judge_LR + '%sUpConstructor%s_oct' % (
-                                                         self.name, str(i + 1).zfill(2)))
-                    cmds.setAttr(lidUpOct[0] + '.interpType', 2)
-                    lidUpOctList.append(lidUpOct[0])
+                    cmds.select(cl=True)
+                    lidOutCSkinEndJnt = cmds.joint(
+                        n=self.judge_LR + '%sUpLidSkinEnd%s_jnt' % (self.name, len(lidUpTargetLocList) - 1),
+                        p=cmds.xform(lidUpTargetLocList[-1], q=True, ws=True, t=True))
 
-                    lidLowOct = cmds.orientConstraint(lidLowOrgList[i], lidUpOrgList[i], lidLowSkinJntsList[i],
-                                                      offset=(0, 0, 0),
-                                                      weight=1,
-                                                      n=self.judge_LR + '%sLowConstructor%s_oct' % (
-                                                          self.name, str(i + 1).zfill(2)))
-                    cmds.setAttr(lidLowOct[0] + '.interpType', 2)
-                    lidLowOctList.append(lidLowOct[0])
-                cmds.select(cl=True)
+                    cmds.parent(lidOutCSkinEndJnt, lidOutCSkinRootJnt)
+                    cmds.setAttr(lidOutCSkinEndJnt + '.radius', 0.1)
 
-                lidBlinkRvs = cmds.createNode('reverse', n=self.judge_LR + '%slidBlink_rvs' % self.name)
-                lidUpSRmv = cmds.createNode('remapValue', n=self.judge_LR + '%sUpLidStart_rmv' % self.name)
-                lidUpERmv = cmds.createNode('remapValue', n=self.judge_LR + '%sUpLidEnd_rmv' % self.name)
-                lidLowSRmv = cmds.createNode('remapValue', n=self.judge_LR + '%sLowLidStart_rmv' % self.name)
-                lidLowERmv = cmds.createNode('remapValue', n=self.judge_LR + '%sLowLidEnd_rmv' % self.name)
+                    cmds.aimConstraint(lidUpTargetLocList[-1], lidOutCSkinRootJnt, offset=(0, 0, 0), weight=1,
+                                       aimVector=(1, 0, 0),
+                                       upVector=(0, 1, 0),
+                                       worldUpType=('objectrotation'), worldUpVector=(1, 0, 0),
+                                       worldUpObject=(self.lidUpMRootJnt),
+                                       n=lidOutCSkinRootJnt.replace('_jnt', '_aim'))
 
-                cmds.connectAttr(self.lidUpPathCv[0] + '.blink', lidUpSRmv + '.inputValue')
-                cmds.connectAttr(self.lidUpPathCv[0] + '.blinkSize', lidUpSRmv + '.outputMax')
-                cmds.connectAttr(self.lidUpPathCv[0] + '.blink', lidUpERmv + '.inputValue')
-                cmds.connectAttr(self.lidUpPathCv[0] + '.blinkSize', lidBlinkRvs + '.inputX')
-                cmds.connectAttr(lidBlinkRvs + '.outputX', lidUpERmv + '.outputMax')
+                    cmds.parent(lidInCSkinRootJnt, lidOutCSkinRootJnt, lidSkinJntsGrp)
 
-                cmds.connectAttr(self.lidUpPathCv[0] + '.blink', lidLowSRmv + '.inputValue')
-                cmds.connectAttr(lidBlinkRvs + '.outputX', lidLowSRmv + '.outputMax')
-                cmds.connectAttr(self.lidUpPathCv[0] + '.blink', lidLowERmv + '.inputValue')
-                cmds.connectAttr(self.lidUpPathCv[0] + '.blinkSize', lidLowERmv + '.outputMax')
+                    lidUpSkinEndJntsList.insert(0, lidInCSkinEndJnt)
+                    lidUpSkinEndJntsList.insert(len(lidUpSkinEndJntsList), lidOutCSkinEndJnt)
 
-                cmds.setAttr(lidUpSRmv + '.outputMin', 1)
-                cmds.setAttr(lidLowSRmv + '.outputMin', 1)
-
-                for i, indexUpOct in enumerate(lidUpOctList):
-                    cmds.connectAttr(lidUpSRmv + '.outValue', indexUpOct + '.' + lidUpOrgList[i] + 'W0')
-                    cmds.connectAttr(lidUpERmv + '.outValue', indexUpOct + '.' + lidLowOrgList[i] + 'W1')
-
-                for i, indexLowOct in enumerate(lidLowOctList):
-                    cmds.connectAttr(lidLowSRmv + '.outValue', indexLowOct + '.' + lidLowOrgList[i] + 'W0')
-                    cmds.connectAttr(lidLowERmv + '.outValue', indexLowOct + '.' + lidUpOrgList[i] + 'W1')
-
-                cmds.select(cl=True)
-                lidInCSkinRootJnt = cmds.joint(n=self.judge_LR + '%sUpLidSkinRoot0_jnt' % self.name,
-                                               p=cmds.xform(self.judge_LR + 'eyeBall_jnt', q=True, ws=True, t=True))
-                cmds.setAttr(lidInCSkinRootJnt + '.drawStyle', 2)
-                cmds.setAttr(lidInCSkinRootJnt + '.jointOrient', cmds.getAttr(self.lidUpIcRootJnt + '.jointOrientX'),
-                             cmds.getAttr(self.lidUpIcRootJnt + '.jointOrientY'),
-                             cmds.getAttr(self.lidUpIcRootJnt + '.jointOrientZ'))
-                cmds.delete(cmds.aimConstraint(lidUpTargetLocList[0], lidInCSkinRootJnt, offset=(0, 0, 0), weight=1,
-                                               aimVector=(1, 0, 0),
-                                               upVector=(0, 1, 0),
-                                               worldUpType=('objectrotation'), worldUpVector=(1, 0, 0),
-                                               worldUpObject=(self.lidUpMRootJnt),
-                                               n=lidInCSkinRootJnt.replace('_jnt', '_aim')))
-                cmds.makeIdentity(lidInCSkinRootJnt, apply=True, t=0, r=1, s=0, n=0, pn=1)
-
-                cmds.select(cl=True)
-                lidInCSkinEndJnt = cmds.joint(n=self.judge_LR + '%sUpLidSkinEnd0_jnt' % self.name,
-                                              p=cmds.xform(lidUpTargetLocList[0], q=True, ws=True, t=True))
-                cmds.parent(lidInCSkinEndJnt, lidInCSkinRootJnt)
-                cmds.setAttr(lidInCSkinEndJnt + '.radius', 0.1)
-
-                cmds.aimConstraint(lidUpTargetLocList[0], lidInCSkinRootJnt, offset=(0, 0, 0), weight=1,
-                                   aimVector=(1, 0, 0),
-                                   upVector=(0, 1, 0),
-                                   worldUpType=('objectrotation'), worldUpVector=(1, 0, 0),
-                                   worldUpObject=(self.lidUpMRootJnt), n=lidInCSkinRootJnt.replace('_jnt', '_aim'))
-
-                cmds.select(cl=True)
-                lidOutCSkinRootJnt = cmds.joint(
-                    n=self.judge_LR + '%sUpLidSkinRoot%s_jnt' % (self.name, len(lidUpTargetLocList) - 1),
-                    p=cmds.xform(self.judge_LR + 'eyeBall_jnt', q=True, ws=True, t=True))
-                cmds.setAttr(lidOutCSkinRootJnt + '.drawStyle', 2)
-
-                cmds.delete(cmds.aimConstraint(lidUpTargetLocList[-1], lidOutCSkinRootJnt, offset=(0, 0, 0), weight=1,
-                                               aimVector=(1, 0, 0),
-                                               upVector=(0, 1, 0),
-                                               worldUpType=('objectrotation'), worldUpVector=(1, 0, 0),
-                                               worldUpObject=(self.lidUpMRootJnt),
-                                               n=lidOutCSkinRootJnt.replace('_jnt', '_aim')))
-                cmds.makeIdentity(lidOutCSkinRootJnt, apply=True, t=0, r=1, s=0, n=0, pn=1)
-
-                cmds.select(cl=True)
-                lidOutCSkinEndJnt = cmds.joint(
-                    n=self.judge_LR + '%sUpLidSkinEnd%s_jnt' % (self.name, len(lidUpTargetLocList) - 1),
-                    p=cmds.xform(lidUpTargetLocList[-1], q=True, ws=True, t=True))
-
-                cmds.parent(lidOutCSkinEndJnt, lidOutCSkinRootJnt)
-                cmds.setAttr(lidOutCSkinEndJnt + '.radius', 0.1)
-
-                cmds.aimConstraint(lidUpTargetLocList[-1], lidOutCSkinRootJnt, offset=(0, 0, 0), weight=1,
-                                   aimVector=(1, 0, 0),
-                                   upVector=(0, 1, 0),
-                                   worldUpType=('objectrotation'), worldUpVector=(1, 0, 0),
-                                   worldUpObject=(self.lidUpMRootJnt),
-                                   n=lidOutCSkinRootJnt.replace('_jnt', '_aim'))
-
-                cmds.parent(lidInCSkinRootJnt, lidOutCSkinRootJnt, lidSkinJntsGrp)
-
-                lidUpSkinEndJntsList.insert(0, lidInCSkinEndJnt)
-                lidUpSkinEndJntsList.insert(len(lidUpSkinEndJntsList), lidOutCSkinEndJnt)
-
-                lidUpSkinJntsList.insert(0, lidInCSkinRootJnt)
-                lidUpSkinJntsList.insert(len(lidUpSkinJntsList), lidOutCSkinRootJnt)
+                    lidUpSkinJntsList.insert(0, lidInCSkinRootJnt)
+                    lidUpSkinJntsList.insert(len(lidUpSkinJntsList), lidOutCSkinRootJnt)
 
                 # skinVtxList -------------------------------------------------
 
@@ -994,7 +1000,7 @@ class controls(setLayouts):
                 alignList = ['In', 'Mid', 'Out']
                 XYZList = ['X', 'Y', 'Z']
                 RGBList = ['R', 'G', 'B']
-                ctlsSize = (cmds.getAttr(self.upLidCrvPointList[3]+'.tz') * 0.2)
+                ctlsSize = (cmds.getAttr(self.upLidCrvPointList[3] + '.tz') * 0.2)
 
                 if self.judge_LR == 'l_':
                     tzOffset = ctlsSize / 2
@@ -1019,37 +1025,39 @@ class controls(setLayouts):
                     cmds.transformLimits(lidUpRoot_ctl[0], tz=(-1, 1), etx=(1, 1))
                     cmds.setAttr(lidUpRootCtlGrp + '.s', distance, distance, distance)
 
-                    lidUpTYMdi = cmds.createNode('multiplyDivide', n=self.judge_LR+self.name+'UpTY_mdi')
-                    lidUpTYPma = cmds.createNode('plusMinusAverage', n=self.judge_LR+self.name+'UpTY_pma')
-                    lidUpTXPma = cmds.createNode('plusMinusAverage', n=self.judge_LR+self.name+'UpTX_pma')
-                    lidUpRZ45Mdi = cmds.createNode('multiplyDivide', n=self.judge_LR+self.name+'Up45RZ_mdi')
+                    lidUpTYMdi = cmds.createNode('multiplyDivide', n=self.judge_LR + self.name + 'UpTY_mdi')
+                    lidUpTYPma = cmds.createNode('plusMinusAverage', n=self.judge_LR + self.name + 'UpTY_pma')
+                    lidUpTXPma = cmds.createNode('plusMinusAverage', n=self.judge_LR + self.name + 'UpTX_pma')
+                    lidUpRZ45Mdi = cmds.createNode('multiplyDivide', n=self.judge_LR + self.name + 'Up45RZ_mdi')
                     cmds.setAttr(lidUpRZ45Mdi + '.input2X', -45)
                     cmds.setAttr(lidUpRZ45Mdi + '.input2Z', 45)
                     cmds.setAttr(lidUpRZ45Mdi + '.operation', 2)
-                    lidUpRZMdi = cmds.createNode('multiplyDivide', n=self.judge_LR+self.name+'UpRZ_mdi')
-                    lidUpTXMdi = cmds.createNode('multiplyDivide', n=self.judge_LR+self.name+'UpTX_mdi')
+                    lidUpRZMdi = cmds.createNode('multiplyDivide', n=self.judge_LR + self.name + 'UpRZ_mdi')
+                    lidUpTXMdi = cmds.createNode('multiplyDivide', n=self.judge_LR + self.name + 'UpTX_mdi')
                     cmds.setAttr(lidUpTXMdi + '.input2X', 10)
                     cmds.setAttr(lidUpTXMdi + '.input2Y', 20)
 
                     for i, AL in enumerate(alignList):
                         cmds.setAttr(lidUpTYMdi + '.input2%s' % XYZList[i],
-                                     cmds.getAttr(self.judge_LR+self.name+'%sUpRoot_jnt.jointOrientX' % AL) + cmds.getAttr(
-                                         self.judge_LR+self.name+'%sLowRoot_jnt.jointOrientX' % AL))
+                                     cmds.getAttr(
+                                         self.judge_LR + self.name + '%sUpRoot_jnt.jointOrientX' % AL) + cmds.getAttr(
+                                         self.judge_LR + self.name + '%sLowRoot_jnt.jointOrientX' % AL))
                         cmds.connectAttr(lidUpRoot_ctl[0] + '.translateY', lidUpTYMdi + '.input1%s' % XYZList[i])
                         cmds.connectAttr(lidUpTYMdi + '.output%s' % XYZList[i],
                                          lidUpTYPma + '.input3D[0].input3D%s' % XYZList[i].lower())
                         cmds.connectAttr(lidUpTYPma + '.output3D%s' % XYZList[i].lower(),
-                                         self.judge_LR+self.name+'%sUpRoot_jnt.rotateX' % AL)
+                                         self.judge_LR + self.name + '%sUpRoot_jnt.rotateX' % AL)
 
                         if i == 1:
                             cmds.connectAttr(lidUpTXMdi + '.outputY',
                                              lidUpTXPma + '.input3D[0].input3D%s' % XYZList[i].lower())
                             cmds.connectAttr(lidUpTXPma + '.output3D%s' % XYZList[i].lower(),
-                                             self.judge_LR+self.name+'%sUpRoot_jnt.rotateY' % AL)
+                                             self.judge_LR + self.name + '%sUpRoot_jnt.rotateY' % AL)
                             continue
                         cmds.setAttr(lidUpRZMdi + '.input2%s' % XYZList[i],
-                                     cmds.getAttr(self.judge_LR+self.name+'%sUpRoot_jnt.jointOrientX' % AL) + cmds.getAttr(
-                                         self.judge_LR+self.name+'%sLowRoot_jnt.jointOrientX' % AL))
+                                     cmds.getAttr(
+                                         self.judge_LR + self.name + '%sUpRoot_jnt.jointOrientX' % AL) + cmds.getAttr(
+                                         self.judge_LR + self.name + '%sLowRoot_jnt.jointOrientX' % AL))
                         cmds.connectAttr(lidUpRoot_ctl[0] + '.rotateZ', lidUpRZ45Mdi + '.input1%s' % XYZList[i])
                         cmds.connectAttr(lidUpRZ45Mdi + '.output%s' % XYZList[i], lidUpRZMdi + '.input1%s' % XYZList[i])
                         cmds.connectAttr(lidUpRZMdi + '.output%s' % XYZList[i],
@@ -1057,59 +1065,66 @@ class controls(setLayouts):
                         cmds.connectAttr(lidUpTXMdi + '.outputX',
                                          lidUpTXPma + '.input3D[0].input3D%s' % XYZList[i].lower())
                         cmds.connectAttr(lidUpTXPma + '.output3D%s' % XYZList[i].lower(),
-                                         self.judge_LR+self.name+'%sUpRoot_jnt.rotateY' % AL)
+                                         self.judge_LR + self.name + '%sUpRoot_jnt.rotateY' % AL)
 
                     cmds.connectAttr(lidUpRoot_ctl[0] + '.translateX', lidUpTXMdi + '.input1X')
                     cmds.connectAttr(lidUpRoot_ctl[0] + '.translateX', lidUpTXMdi + '.input1Y')
 
                     lidLowRoot_ctl = cmds.circle(c=(0, 0, tzOffset), nr=(0, 0, 1), sw=360, r=ctlsSize,
-                                                 d=3, ut=0, tol=0.01, s=8, ch=False, n=self.judge_LR+self.name+'LowRoot_ctl')
+                                                 d=3, ut=0, tol=0.01, s=8, ch=False,
+                                                 n=self.judge_LR + self.name + 'LowRoot_ctl')
                     cmds.setAttr(cmds.listRelatives(lidLowRoot_ctl[0])[0] + '.overrideEnabled', True)
                     cmds.setAttr(cmds.listRelatives(lidLowRoot_ctl[0])[0] + '.overrideColor', 6)
-                    lidLowRootCtlGrp = cmds.group(lidLowRoot_ctl, n=self.judge_LR+self.name+'LowRootCtl_grp')
+                    lidLowRootCtlGrp = cmds.group(lidLowRoot_ctl, n=self.judge_LR + self.name + 'LowRootCtl_grp')
                     for Cvs in range(4, 7):
                         cmds.xform(lidLowRoot_ctl[0] + '.cv[%s]' % Cvs, ws=True, t=(
                             round(cmds.pointPosition(lidLowRoot_ctl[0] + '.cv[%s]' % Cvs, w=True)[0], 4),
                             round(cmds.pointPosition(lidLowRoot_ctl[0] + '.cv[3]', w=True)[1], 4),
                             round(cmds.pointPosition(lidLowRoot_ctl[0] + '.cv[%s]' % Cvs, w=True)[2], 4)
                         ))
-                    cmds.xform(lidLowRootCtlGrp, ws=True, t=cmds.xform(self.judge_LR+self.name+'MidLowSpace_jnt', q=True, ws=True, t=True))
+                    cmds.xform(lidLowRootCtlGrp, ws=True,
+                               t=cmds.xform(self.judge_LR + self.name + 'MidLowSpace_jnt', q=True, ws=True, t=True))
                     cmds.transformLimits(lidLowRoot_ctl[0], ty=(-1, 1), ety=(0, 1))
                     cmds.transformLimits(lidLowRoot_ctl[0], ty=(-1, 1), ety=(1, 1))
                     cmds.transformLimits(lidLowRoot_ctl[0], tz=(-1, 1), etx=(0, 1))
                     cmds.transformLimits(lidLowRoot_ctl[0], tz=(-1, 1), etx=(1, 1))
                     cmds.setAttr(lidLowRootCtlGrp + '.s', distance, -distance, distance)
 
-                    lidLowTYPma = cmds.createNode('plusMinusAverage', n=self.judge_LR+self.name+'LowTY_pma')
-                    lidLowTYRTPma = cmds.createNode('plusMinusAverage', n=self.judge_LR+self.name+'LowTYRT_pma')
-                    lidLowRZ45Mdi = cmds.createNode('multiplyDivide', n=self.judge_LR+self.name+'Low45RZ_mdi')
+                    lidLowTYPma = cmds.createNode('plusMinusAverage', n=self.judge_LR + self.name + 'LowTY_pma')
+                    lidLowTYRTPma = cmds.createNode('plusMinusAverage', n=self.judge_LR + self.name + 'LowTYRT_pma')
+                    lidLowRZ45Mdi = cmds.createNode('multiplyDivide', n=self.judge_LR + self.name + 'Low45RZ_mdi')
                     cmds.setAttr(lidLowRZ45Mdi + '.input2X', -45)
                     cmds.setAttr(lidLowRZ45Mdi + '.input2Z', 45)
                     cmds.setAttr(lidLowRZ45Mdi + '.operation', 2)
-                    lidLowTYMdi = cmds.createNode('multiplyDivide', n=self.judge_LR+self.name+'LowTY_mdi')
-                    lidLowTYMinMdi = cmds.createNode('multiplyDivide', n=self.judge_LR+self.name+'LowTYMin_mdi')
+                    lidLowTYMdi = cmds.createNode('multiplyDivide', n=self.judge_LR + self.name + 'LowTY_mdi')
+                    lidLowTYMinMdi = cmds.createNode('multiplyDivide', n=self.judge_LR + self.name + 'LowTYMin_mdi')
                     cmds.setAttr(lidLowTYMinMdi + '.input2', -1, -1, -1)
-                    lidLowOutBcl = cmds.createNode('blendColors', n=self.judge_LR+self.name+'LowOut_bcl')
+                    lidLowOutBcl = cmds.createNode('blendColors', n=self.judge_LR + self.name + 'LowOut_bcl')
                     cmds.setAttr(lidLowOutBcl + '.blender', 1)
 
-                    upToLowPma = cmds.createNode('plusMinusAverage', n=self.judge_LR+self.name+'UpToLow_pma')
-                    cmds.connectAttr(self.judge_LR+self.name+'UpRoot_ctl.translateY', upToLowPma + '.input2D[0].input2Dx')
-                    cmds.connectAttr(self.judge_LR+self.name+'UpRoot_ctl.translateY', upToLowPma + '.input2D[0].input2Dy')
+                    upToLowPma = cmds.createNode('plusMinusAverage', n=self.judge_LR + self.name + 'UpToLow_pma')
+                    cmds.connectAttr(self.judge_LR + self.name + 'UpRoot_ctl.translateY',
+                                     upToLowPma + '.input2D[0].input2Dx')
+                    cmds.connectAttr(self.judge_LR + self.name + 'UpRoot_ctl.translateY',
+                                     upToLowPma + '.input2D[0].input2Dy')
                     cmds.connectAttr(lidUpRZ45Mdi + '.outputX', upToLowPma + '.input2D[1].input2Dx')
                     cmds.connectAttr(lidUpRZ45Mdi + '.outputZ', upToLowPma + '.input2D[1].input2Dy')
-                    lidUpToLowTYMinMdi = cmds.createNode('multiplyDivide', n=self.judge_LR+self.name+'UpToLowTYMin_mdi')
+                    lidUpToLowTYMinMdi = cmds.createNode('multiplyDivide',
+                                                         n=self.judge_LR + self.name + 'UpToLowTYMin_mdi')
                     cmds.setAttr(lidUpToLowTYMinMdi + '.input2', -1, -1, -1)
                     cmds.connectAttr(upToLowPma + '.output2Dx', lidUpToLowTYMinMdi + '.input1X')
-                    cmds.connectAttr(self.judge_LR+self.name+'UpRoot_ctl.translateY', lidUpToLowTYMinMdi + '.input1Y')
+                    cmds.connectAttr(self.judge_LR + self.name + 'UpRoot_ctl.translateY',
+                                     lidUpToLowTYMinMdi + '.input1Y')
                     cmds.connectAttr(upToLowPma + '.output2Dy', lidUpToLowTYMinMdi + '.input1Z')
-                    lidUpToLowRvs = cmds.createNode('reverse', n=self.judge_LR+self.name+'UpToLow_rvs')
-                    lidUpToLowTYPlusMdi = cmds.createNode('multiplyDivide', n=self.judge_LR+self.name+'UpToLowTYPlusTY_mdi')
-                    lidLowTX = cmds.createNode('multiplyDivide', n=self.judge_LR+self.name+'LowTX_mdi')
+                    lidUpToLowRvs = cmds.createNode('reverse', n=self.judge_LR + self.name + 'UpToLow_rvs')
+                    lidUpToLowTYPlusMdi = cmds.createNode('multiplyDivide',
+                                                          n=self.judge_LR + self.name + 'UpToLowTYPlusTY_mdi')
+                    lidLowTX = cmds.createNode('multiplyDivide', n=self.judge_LR + self.name + 'LowTX_mdi')
                     cmds.setAttr(lidLowTX + '.input2X', -10)
                     cmds.setAttr(lidLowTX + '.input2Y', -20)
                     cmds.connectAttr(lidLowRoot_ctl[0] + '.translateX', lidLowTX + '.input1X')
                     cmds.connectAttr(lidLowRoot_ctl[0] + '.translateX', lidLowTX + '.input1Y')
-                    lidLowTXPma = cmds.createNode('plusMinusAverage', n=self.judge_LR+self.name+'LowTX_pma')
+                    lidLowTXPma = cmds.createNode('plusMinusAverage', n=self.judge_LR + self.name + 'LowTX_pma')
 
                     for i, conIn in enumerate(alignList):
                         cmds.connectAttr(lidLowRoot_ctl[0] + '.translateY',
@@ -1121,10 +1136,10 @@ class controls(setLayouts):
                         cmds.connectAttr(lidLowTYRTPma + '.output3D%s' % XYZList[i].lower(),
                                          lidLowTYMinMdi + '.input1%s' % XYZList[i])
                         cmds.setAttr(lidLowTYMdi + '.input2%s' % XYZList[i],
-                                     cmds.getAttr(self.judge_LR+self.name+'%sUpRoot_jnt.jointOrientX' % conIn) +
-                                     cmds.getAttr(self.judge_LR+self.name+'%sLowRoot_jnt.jointOrientX' % conIn))
+                                     cmds.getAttr(self.judge_LR + self.name + '%sUpRoot_jnt.jointOrientX' % conIn) +
+                                     cmds.getAttr(self.judge_LR + self.name + '%sLowRoot_jnt.jointOrientX' % conIn))
 
-                        outCds = cmds.createNode('condition', n=self.judge_LR+self.name+'%sLow_cds' % conIn)
+                        outCds = cmds.createNode('condition', n=self.judge_LR + self.name + '%sLow_cds' % conIn)
                         cmds.setAttr(outCds + '.operation', 3)
                         cmds.connectAttr(lidLowTYMdi + '.output%s' % XYZList[i], outCds + '.colorIfTrueR')
                         cmds.connectAttr(lidLowTYMinMdi + '.output%s' % XYZList[i], outCds + '.secondTerm')
@@ -1132,20 +1147,22 @@ class controls(setLayouts):
                         cmds.connectAttr(lidLowTYMdi + '.output%s' % XYZList[i],
                                          lidLowOutBcl + '.color2%s' % RGBList[i])
 
-                        cmds.connectAttr(lidLowOutBcl + '.output%s' % RGBList[i], self.judge_LR+self.name+'%sLowRoot_jnt.rotateX' % conIn)
+                        cmds.connectAttr(lidLowOutBcl + '.output%s' % RGBList[i],
+                                         self.judge_LR + self.name + '%sLowRoot_jnt.rotateX' % conIn)
                         cmds.connectAttr(lidUpToLowTYMinMdi + '.output%s' % XYZList[i],
                                          lidUpToLowRvs + '.input%s' % XYZList[i])
                         cmds.connectAttr(lidUpToLowRvs + '.output%s' % XYZList[i],
                                          lidUpToLowTYPlusMdi + '.input1%s' % XYZList[i])
                         cmds.setAttr(lidUpToLowTYPlusMdi + '.input2%s' % XYZList[i],
-                                     -(cmds.getAttr(self.judge_LR+self.name+'%sUpRoot_jnt.jointOrientX' % conIn) + cmds.getAttr(
-                                         self.judge_LR+self.name+'%sLowRoot_jnt.jointOrientX' % conIn)))
+                                     -(cmds.getAttr(
+                                         self.judge_LR + self.name + '%sUpRoot_jnt.jointOrientX' % conIn) + cmds.getAttr(
+                                         self.judge_LR + self.name + '%sLowRoot_jnt.jointOrientX' % conIn)))
                         cmds.connectAttr(lidUpToLowRvs + '.output%s' % XYZList[i], outCds + '.firstTerm')
                         cmds.connectAttr(lidUpToLowTYPlusMdi + '.output%s' % XYZList[i], outCds + '.colorIfFalseR')
                         cmds.connectAttr(lidLowTX + '.outputX',
                                          lidLowTXPma + '.input3D[0].input3D%s' % XYZList[i].lower())
                         cmds.connectAttr(lidLowTXPma + '.output3D%s' % XYZList[i].lower(),
-                                         self.judge_LR+self.name+'%sLowRoot_jnt.rotateY' % conIn)
+                                         self.judge_LR + self.name + '%sLowRoot_jnt.rotateY' % conIn)
 
                         if i == 1:
                             continue
@@ -1154,6 +1171,98 @@ class controls(setLayouts):
                                          lidLowTYPma + '.input3D[1].input3D%s' % XYZList[i].lower())
                         cmds.connectAttr(lidLowRZ45Mdi + '.output%s' % XYZList[i],
                                          lidLowTYRTPma + '.input3D[1].input3D%s' % XYZList[i].lower())
+
+                    if self.judge_LR == 'l_':
+                        judge = 'l_'
+                        print 'dis align a Left'
+
+                    lidSpacePosJntsList = ['InCornerSpace_jnt',
+                                           'InUpSpace_jnt',
+                                           'MidUpSpace_jnt',
+                                           'OutUpSpace_jnt',
+                                           'OutCornerSpace_jnt',
+                                           'InLowSpace_jnt',
+                                           'MidLowSpace_jnt',
+                                           'OutLowSpace_jnt']
+
+                    TweakCtlSize = (cmds.getAttr(judge + self.name + lidSpacePosJntsList[2] + '.tz') * 0.05)
+                    TweakCtlsGrp = cmds.group(em=True, n=judge + self.name + 'TweakCtls_grp')
+                    for TweakJndex in lidSpacePosJntsList:
+                        pos = cmds.xform(judge + self.name + TweakJndex, q=True, ws=True, t=True)
+                        TweakCtls = cmds.curve(d=1, p=[(-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize)],
+                                               k=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
+                                               n=judge + self.name + TweakJndex.replace('Space_jnt', 'Tweak_ctl'))
+                        cmds.rename(cmds.listRelatives(TweakCtls)[0],
+                                    judge + self.name + TweakJndex.replace('Space_jnt', 'Tweak_ctlShape'))
+                        cmds.setAttr(cmds.listRelatives(TweakCtls)[0] + '.overrideEnabled', True)
+                        cmds.setAttr(cmds.listRelatives(TweakCtls)[0] + '.overrideColor', 18)
+                        TweakGrp = cmds.group(TweakCtls,
+                                              n=judge + self.name + TweakJndex.replace('Space_jnt', 'TweakCtl_grp'))
+                        TweakRollGrp = cmds.group(em=True, n=judge + self.name + TweakJndex.replace('Space_jnt',
+                                                                                                    'TweakRoll_grp'))
+                        TweakRootGrp = cmds.group(TweakRollGrp, n=judge + self.name + TweakJndex.replace('Space_jnt',
+                                                                                                         'TweakRoot_grp'))
+                        cmds.xform(TweakRootGrp, ws=True,
+                                   t=cmds.xform(cmds.listRelatives(judge + self.name + TweakJndex, p=True)[0], q=True,
+                                                ws=True,
+                                                t=True),
+                                   ro=cmds.xform(cmds.listRelatives(judge + self.name + TweakJndex, p=True)[0], q=True,
+                                                 ws=True,
+                                                 ro=True))
+                        if 'Up' in TweakJndex or 'Corner' in TweakJndex:
+                            cmds.xform(TweakGrp, ws=True, t=pos)
+                            cmds.connectAttr(TweakCtls + '.translateX',
+                                             cmds.listRelatives(judge + self.name + TweakJndex)[0] + '.translateX')
+                            cmds.connectAttr(TweakCtls + '.translateY',
+                                             cmds.listRelatives(judge + self.name + TweakJndex)[0] + '.translateY')
+                            cmds.connectAttr(TweakCtls + '.translateZ',
+                                             cmds.listRelatives(judge + self.name + TweakJndex)[0] + '.translateZ')
+
+                        if 'Low' in TweakJndex:
+                            cmds.xform(TweakGrp, ws=True, t=pos)
+                            cmds.setAttr(TweakGrp + '.sy', -1)
+                            mdi = cmds.createNode('multiplyDivide',
+                                                  n=judge + self.name + TweakJndex.replace('_jnt', '_mdi'))
+                            cmds.setAttr(mdi + '.input2X', -1)
+
+                            cmds.connectAttr(TweakCtls + '.translateX', mdi + '.input1X')
+
+                            cmds.connectAttr(mdi + '.outputX',
+                                             cmds.listRelatives(judge + self.name + TweakJndex)[0] + '.translateX')
+                            cmds.connectAttr(TweakCtls + '.translateY',
+                                             cmds.listRelatives(judge + self.name + TweakJndex)[0] + '.translateY')
+                            cmds.connectAttr(TweakCtls + '.translateZ',
+                                             cmds.listRelatives(judge + self.name + TweakJndex)[0] + '.translateZ')
+
+                        cmds.parent(TweakGrp, TweakRollGrp)
+                        cmds.parent(TweakRootGrp, TweakCtlsGrp)
+
+                    for i, rgb in enumerate(RGBList):
+                        cmds.connectAttr(lidLowOutBcl + '.output%s' % rgb,
+                                         judge + self.name + '%sLowTweakRoll_grp.rotateX' % alignList[i])
+                        cmds.connectAttr(lidUpTYPma + '.output3D%s' % XYZList[i].lower(),
+                                         judge + self.name + '%sUpTweakRoll_grp.rotateX' % alignList[i])
+                        cmds.connectAttr(lidUpTXPma + '.output3D%s' % XYZList[i].lower(),
+                                         judge + self.name + '%sUpTweakRoll_grp.rotateY' % alignList[i])
+                        cmds.connectAttr(lidLowTXPma + '.output3D%s' % XYZList[i].lower(),
+                                         judge + self.name + '%sLowTweakRoll_grp.rotateY' % alignList[i])
+
+
 
                 elif self.judge_LR == 'r_':
 
@@ -1198,8 +1307,7 @@ class controls(setLayouts):
                         cmds.parentConstraint(self.judge_LR + self.name + '%sLowRoot_jnt' % AL, grp)
                         cmds.parentConstraint(self.judge_LR + self.name + '%sUpRoot_jnt' % AL, rotLoc[0])
 
-
-                        cmds.setAttr(lidUpTYMdi + '.input2%s' % XYZList[i], cmds.getAttr(rotLoc[0]+'.rx'))
+                        cmds.setAttr(lidUpTYMdi + '.input2%s' % XYZList[i], cmds.getAttr(rotLoc[0] + '.rx'))
 
                         cmds.connectAttr(lidUpRoot_ctl[0] + '.translateY', lidUpTYMdi + '.input1%s' % XYZList[i])
                         cmds.connectAttr(lidUpTYMdi + '.output%s' % XYZList[i],
@@ -1214,7 +1322,7 @@ class controls(setLayouts):
                                              self.judge_LR + self.name + '%sUpRoot_jnt.rotateY' % AL)
                             cmds.delete(grp)
                             continue
-                        cmds.setAttr(lidUpRZMdi + '.input2%s' % XYZList[i], cmds.getAttr(rotLoc[0]+'.rx'))
+                        cmds.setAttr(lidUpRZMdi + '.input2%s' % XYZList[i], cmds.getAttr(rotLoc[0] + '.rx'))
                         cmds.connectAttr(lidUpRoot_ctl[0] + '.rotateZ', lidUpRZ45Mdi + '.input1%s' % XYZList[i])
                         cmds.connectAttr(lidUpRZ45Mdi + '.output%s' % XYZList[i], lidUpRZMdi + '.input1%s' % XYZList[i])
                         cmds.connectAttr(lidUpRZMdi + '.output%s' % XYZList[i],
@@ -1298,7 +1406,7 @@ class controls(setLayouts):
                                          lidLowTYMdi + '.input1%s' % XYZList[i])
                         cmds.connectAttr(lidLowTYRTPma + '.output3D%s' % XYZList[i].lower(),
                                          lidLowTYMinMdi + '.input1%s' % XYZList[i])
-                        cmds.setAttr(lidLowTYMdi + '.input2%s' % XYZList[i], cmds.getAttr(rotLoc[0]+'.rx'))
+                        cmds.setAttr(lidLowTYMdi + '.input2%s' % XYZList[i], cmds.getAttr(rotLoc[0] + '.rx'))
 
                         outCds = cmds.createNode('condition', n=self.judge_LR + self.name + '%sLow_cds' % conIn)
                         cmds.setAttr(outCds + '.operation', 3)
@@ -1314,7 +1422,7 @@ class controls(setLayouts):
                                          lidUpToLowRvs + '.input%s' % XYZList[i])
                         cmds.connectAttr(lidUpToLowRvs + '.output%s' % XYZList[i],
                                          lidUpToLowTYPlusMdi + '.input1%s' % XYZList[i])
-                        cmds.setAttr(lidUpToLowTYPlusMdi + '.input2%s' % XYZList[i], -cmds.getAttr(rotLoc[0]+'.rx'))
+                        cmds.setAttr(lidUpToLowTYPlusMdi + '.input2%s' % XYZList[i], -cmds.getAttr(rotLoc[0] + '.rx'))
                         cmds.connectAttr(lidUpToLowRvs + '.output%s' % XYZList[i], outCds + '.firstTerm')
                         cmds.connectAttr(lidUpToLowTYPlusMdi + '.output%s' % XYZList[i], outCds + '.colorIfFalseR')
                         cmds.connectAttr(lidLowTX + '.outputX',
@@ -1331,6 +1439,102 @@ class controls(setLayouts):
                         cmds.connectAttr(lidLowRZ45Mdi + '.output%s' % XYZList[i],
                                          lidLowTYRTPma + '.input3D[1].input3D%s' % XYZList[i].lower())
                         cmds.delete(grp)
+
+                    if self.judge_LR == 'r_':
+                        judge = 'r_'
+
+                    lidSpacePosJntsList = ['InCornerSpace_jnt',
+                                           'InUpSpace_jnt',
+                                           'MidUpSpace_jnt',
+                                           'OutUpSpace_jnt',
+                                           'OutCornerSpace_jnt',
+                                           'InLowSpace_jnt',
+                                           'MidLowSpace_jnt',
+                                           'OutLowSpace_jnt']
+
+                    TweakCtlSize = (cmds.getAttr(judge + self.name + lidSpacePosJntsList[2] + '.tz') * 0.05)
+                    TweakCtlsGrp = cmds.group(em=True, n=judge + self.name + 'TweakCtls_grp')
+                    for TweakJndex in lidSpacePosJntsList:
+                        pos = cmds.xform(judge + self.name + TweakJndex, q=True, ws=True, t=True)
+                        TweakCtls = cmds.curve(d=1, p=[(-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize)],
+                                               k=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
+                                               n=judge + self.name + TweakJndex.replace('Space_jnt', 'Tweak_ctl'))
+                        cmds.rename(cmds.listRelatives(TweakCtls)[0],
+                                    judge + self.name + TweakJndex.replace('Space_jnt', 'Tweak_ctlShape'))
+                        cmds.setAttr(cmds.listRelatives(TweakCtls)[0] + '.overrideEnabled', True)
+                        cmds.setAttr(cmds.listRelatives(TweakCtls)[0] + '.overrideColor', 18)
+                        TweakGrp = cmds.group(TweakCtls,
+                                              n=judge + self.name + TweakJndex.replace('Space_jnt', 'TweakCtl_grp'))
+                        cmds.setAttr(TweakGrp+'.sx', -1)
+                        TweakRollGrp = cmds.group(em=True, n=judge + self.name + TweakJndex.replace('Space_jnt',
+                                                                                                    'TweakRoll_grp'))
+                        TweakRootGrp = cmds.group(TweakRollGrp, n=judge + self.name + TweakJndex.replace('Space_jnt',
+                                                                                                         'TweakRoot_grp'))
+                        cmds.xform(TweakRootGrp, ws=True,
+                                   t=cmds.xform(cmds.listRelatives(judge + self.name + TweakJndex, p=True)[0], q=True,
+                                                ws=True,
+                                                t=True),
+                                   ro=cmds.xform(cmds.listRelatives(judge + self.name + TweakJndex, p=True)[0], q=True,
+                                                 ws=True,
+                                                 ro=True))
+                        if 'Up' in TweakJndex or 'Corner' in TweakJndex:
+                            cmds.xform(TweakGrp, ws=True, t=pos)
+                            mdi = cmds.createNode('multiplyDivide',
+                                                  n=judge + self.name + TweakJndex.replace('_jnt', '_mdi'))
+                            cmds.setAttr(mdi + '.input2', -1, -1, -1)
+                            cmds.connectAttr(TweakCtls + '.translateX', mdi+'.input1X')
+                            cmds.connectAttr(mdi + '.outputX',
+                                             cmds.listRelatives(judge + self.name + TweakJndex)[0] + '.translateX')
+                            cmds.connectAttr(TweakCtls + '.translateY', mdi + '.input1Y')
+                            cmds.connectAttr(mdi + '.outputY',
+                                             cmds.listRelatives(judge + self.name + TweakJndex)[0] + '.translateY')
+                            cmds.connectAttr(TweakCtls + '.translateZ',
+                                             cmds.listRelatives(judge + self.name + TweakJndex)[0] + '.translateZ')
+
+                        if 'Low' in TweakJndex:
+                            cmds.xform(TweakGrp, ws=True, t=pos)
+                            cmds.setAttr(TweakGrp + '.sy', -1)
+                            mdi = cmds.createNode('multiplyDivide',
+                                                  n=judge + self.name + TweakJndex.replace('_jnt', '_mdi'))
+                            cmds.setAttr(mdi + '.input2', -1, -1, -1)
+
+                            cmds.connectAttr(TweakCtls + '.translateX', mdi + '.input1X')
+
+                            cmds.connectAttr(TweakCtls + '.translateX',
+                                             cmds.listRelatives(judge + self.name + TweakJndex)[0] + '.translateX')
+                            cmds.connectAttr(TweakCtls + '.translateY', mdi + '.input1Y')
+                            cmds.connectAttr(mdi + '.outputY',
+                                             cmds.listRelatives(judge + self.name + TweakJndex)[0] + '.translateY')
+                            cmds.connectAttr(TweakCtls + '.translateZ',
+                                             cmds.listRelatives(judge + self.name + TweakJndex)[0] + '.translateZ')
+
+                        cmds.parent(TweakGrp, TweakRollGrp)
+                        cmds.parent(TweakRootGrp, TweakCtlsGrp)
+
+                    for i, rgb in enumerate(RGBList):
+                        cmds.connectAttr(lidLowOutBcl + '.output%s' % rgb,
+                                         judge + self.name + '%sLowTweakRoll_grp.rotateX' % alignList[i])
+                        cmds.connectAttr(lidUpTYPma + '.output3D%s' % XYZList[i].lower(),
+                                         judge + self.name + '%sUpTweakRoll_grp.rotateX' % alignList[i])
+                        cmds.connectAttr(lidUpTXPma + '.output3D%s' % XYZList[i].lower(),
+                                         judge + self.name + '%sUpTweakRoll_grp.rotateY' % alignList[i])
+                        cmds.connectAttr(lidLowTXPma + '.output3D%s' % XYZList[i].lower(),
+                                         judge + self.name + '%sLowTweakRoll_grp.rotateY' % alignList[i])
 
                 if not 'facialGlobalJnt_grp' in cmds.ls():
                     cmds.select(cl=True)
@@ -1423,14 +1627,14 @@ class controls(setLayouts):
                                                      n=self.judge_LR + self.name + 'LowPath_crv')
 
                     self.upLidCrvPointList = [self.judge_LR + self.name + 'InCornerSpace_jnt', '',
-                                         self.judge_LR + self.name + 'InUpSpace_jnt',
-                                         self.judge_LR + self.name + 'MidUpSpace_jnt',
-                                         self.judge_LR + self.name + 'OutUpSpace_jnt', '',
-                                         self.judge_LR + self.name + 'OutCornerSpace_jnt']
+                                              self.judge_LR + self.name + 'InUpSpace_jnt',
+                                              self.judge_LR + self.name + 'MidUpSpace_jnt',
+                                              self.judge_LR + self.name + 'OutUpSpace_jnt', '',
+                                              self.judge_LR + self.name + 'OutCornerSpace_jnt']
                     self.LowLidCrvPointList = ['', '', self.judge_LR + self.name + 'InLowSpace_jnt',
-                                          self.judge_LR + self.name + 'MidLowSpace_jnt',
-                                          self.judge_LR + self.name + 'OutLowSpace_jnt', '',
-                                          '']
+                                               self.judge_LR + self.name + 'MidLowSpace_jnt',
+                                               self.judge_LR + self.name + 'OutLowSpace_jnt', '',
+                                               '']
 
                     self.duplicateLowPath = cmds.duplicate(lidLowPathCv,
                                                            n=self.set_LR + '_' + self.name + 'LowPath_crv')
@@ -1940,17 +2144,22 @@ class controls(setLayouts):
                     duplidLowSkinJntsList.append(duplidLowSkinRootJnt)
 
                     cmds.delete(
-                        cmds.aimConstraint(aimLocIndex, duplidLowOrgJnt, offset=(0, 0, 0), weight=1, aimVector=(0, 0, 1),
+                        cmds.aimConstraint(aimLocIndex, duplidLowOrgJnt, offset=(0, 0, 0), weight=1,
+                                           aimVector=(0, 0, 1),
                                            upVector=OrgUpVec,
                                            worldUpType=('objectrotation'), worldUpVector=(1, 0, 0),
-                                           worldUpObject=(cmds.listRelatives(cmds.listRelatives(dupSortLowSkinCrvJnts[1], p=True)[0], p=True)[0])))
+                                           worldUpObject=(
+                                           cmds.listRelatives(cmds.listRelatives(dupSortLowSkinCrvJnts[1], p=True)[0],
+                                                              p=True)[0])))
 
                     cmds.makeIdentity(duplidLowOrgJnt, apply=True, t=0, r=1, s=0, n=0, pn=1)
                     cmds.parent(duplidLowOrgEndJnt, duplidLowOrgJnt)
                     cmds.aimConstraint(aimLocIndex, duplidLowOrgJnt, offset=(0, 0, 0), weight=1, aimVector=(0, 0, 1),
                                        upVector=OrgUpVec,
                                        worldUpType=('objectrotation'), worldUpVector=(1, 0, 0),
-                                       worldUpObject=(cmds.listRelatives(cmds.listRelatives(dupSortLowSkinCrvJnts[1], p=True)[0], p=True)[0]),
+                                       worldUpObject=(
+                                       cmds.listRelatives(cmds.listRelatives(dupSortLowSkinCrvJnts[1], p=True)[0],
+                                                          p=True)[0]),
                                        n=duplidLowOrgJnt.replace('_jnt', '_aim'))
                     cmds.parent(duplidLowOrgJnt, dupLidOrgGrp)
 
@@ -2260,7 +2469,6 @@ class controls(setLayouts):
                     self.lidLowSortVtxIdList.append(sortVtxID)
                 cmds.select(cl=True)
 
-
                 lidUpPoint = api.MPoint(cmds.xform(self.upLidCrvPointList[3], q=True, ws=True, t=True))
                 lidLowPoint = api.MPoint(cmds.xform(self.LowLidCrvPointList[3], q=True, ws=True, t=True))
                 distance = lidUpPoint.distanceTo(lidLowPoint)
@@ -2275,7 +2483,7 @@ class controls(setLayouts):
                     lidUpRoot_ctl = cmds.circle(c=(0, 0, tzOffset), nr=(0, 0, 1), sw=360, r=ctlsSize,
                                                 d=3, ut=0, tol=0.01, s=8, ch=False,
                                                 n='l_' + self.name + 'UpRoot_ctl')
-                    cmds.setAttr(cmds.listRelatives(lidUpRoot_ctl[0])[0]+'.overrideEnabled', True)
+                    cmds.setAttr(cmds.listRelatives(lidUpRoot_ctl[0])[0] + '.overrideEnabled', True)
                     cmds.setAttr(cmds.listRelatives(lidUpRoot_ctl[0])[0] + '.overrideColor', 6)
 
                     lidUpRootCtlGrp = cmds.group(lidUpRoot_ctl, n='l_' + self.name + 'UpRootCtl_grp')
@@ -2440,10 +2648,6 @@ class controls(setLayouts):
                         cmds.connectAttr(lidLowRZ45Mdi + '.output%s' % XYZList[i],
                                          lidLowTYRTPma + '.input3D[1].input3D%s' % XYZList[i].lower())
 
-
-
-
-
                     lidUpRoot_ctl = cmds.circle(c=(0, 0, tzOffset), nr=(0, 0, 1), sw=360, r=ctlsSize,
                                                 d=3, ut=0, tol=0.01, s=8, ch=False,
                                                 n='r_' + self.name + 'UpRoot_ctl')
@@ -2465,7 +2669,6 @@ class controls(setLayouts):
                     cmds.transformLimits(lidUpRoot_ctl[0], tz=(-1, 1), etx=(0, 1))
                     cmds.transformLimits(lidUpRoot_ctl[0], tz=(-1, 1), etx=(1, 1))
                     cmds.setAttr(lidUpRootCtlGrp + '.s', -distance, distance, distance)
-
 
                     lidUpTYMdi = cmds.createNode('multiplyDivide', n='r_' + self.name + 'UpTY_mdi')
                     lidUpTYPma = cmds.createNode('plusMinusAverage', n='r_' + self.name + 'UpTY_pma')
@@ -2515,9 +2718,6 @@ class controls(setLayouts):
 
                     cmds.connectAttr(lidUpRoot_ctl[0] + '.translateX', lidUpTXMdi + '.input1X')
                     cmds.connectAttr(lidUpRoot_ctl[0] + '.translateX', lidUpTXMdi + '.input1Y')
-
-
-
 
                     lidLowRoot_ctl = cmds.circle(c=(0, 0, tzOffset), nr=(0, 0, 1), sw=360, r=ctlsSize,
                                                  d=3, ut=0, tol=0.01, s=8, ch=False,
@@ -2625,8 +2825,177 @@ class controls(setLayouts):
 
 
 
+                    lidSpacePosJntsList = ['InCornerSpace_jnt',
+                                           'InUpSpace_jnt',
+                                           'MidUpSpace_jnt',
+                                           'OutUpSpace_jnt',
+                                           'OutCornerSpace_jnt',
+                                           'InLowSpace_jnt',
+                                           'MidLowSpace_jnt',
+                                           'OutLowSpace_jnt']
+
+                    TweakCtlSize = (cmds.getAttr('l_' + self.name + lidSpacePosJntsList[2] + '.tz') * 0.05)
+                    TweakCtlsGrp = cmds.group(em=True, n='l_' + self.name + 'TweakCtls_grp')
+                    for TweakJndex in lidSpacePosJntsList:
+                        pos = cmds.xform('l_' + self.name + TweakJndex, q=True, ws=True, t=True)
+                        TweakCtls = cmds.curve(d=1, p=[(-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize)],
+                                               k=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
+                                               n='l_' + self.name + TweakJndex.replace('Space_jnt', 'Tweak_ctl'))
+                        cmds.rename(cmds.listRelatives(TweakCtls)[0],
+                                    'l_' + self.name + TweakJndex.replace('Space_jnt', 'Tweak_ctlShape'))
+                        cmds.setAttr(cmds.listRelatives(TweakCtls)[0] + '.overrideEnabled', True)
+                        cmds.setAttr(cmds.listRelatives(TweakCtls)[0] + '.overrideColor', 18)
+                        TweakGrp = cmds.group(TweakCtls,
+                                              n='l_' + self.name + TweakJndex.replace('Space_jnt', 'TweakCtl_grp'))
+                        TweakRollGrp = cmds.group(em=True, n='l_' + self.name + TweakJndex.replace('Space_jnt',
+                                                                                                    'TweakRoll_grp'))
+                        TweakRootGrp = cmds.group(TweakRollGrp, n='l_' + self.name + TweakJndex.replace('Space_jnt',
+                                                                                                         'TweakRoot_grp'))
+                        cmds.xform(TweakRootGrp, ws=True,
+                                   t=cmds.xform(cmds.listRelatives('l_' + self.name + TweakJndex, p=True)[0], q=True,
+                                                ws=True,
+                                                t=True),
+                                   ro=cmds.xform(cmds.listRelatives('l_' + self.name + TweakJndex, p=True)[0], q=True,
+                                                 ws=True,
+                                                 ro=True))
+                        if 'Up' in TweakJndex or 'Corner' in TweakJndex:
+                            cmds.xform(TweakGrp, ws=True, t=pos)
+                            cmds.connectAttr(TweakCtls + '.translateX',
+                                             cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateX')
+                            cmds.connectAttr(TweakCtls + '.translateY',
+                                             cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateY')
+                            cmds.connectAttr(TweakCtls + '.translateZ',
+                                             cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateZ')
+
+                        if 'Low' in TweakJndex:
+                            cmds.xform(TweakGrp, ws=True, t=pos)
+                            cmds.setAttr(TweakGrp + '.sy', -1)
+                            mdi = cmds.createNode('multiplyDivide',
+                                                  n='l_' + self.name + TweakJndex.replace('_jnt', '_mdi'))
+                            cmds.setAttr(mdi + '.input2X', -1)
+
+                            cmds.connectAttr(TweakCtls + '.translateX', mdi + '.input1X')
+
+                            cmds.connectAttr(mdi + '.outputX',
+                                             cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateX')
+                            cmds.connectAttr(TweakCtls + '.translateY',
+                                             cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateY')
+                            cmds.connectAttr(TweakCtls + '.translateZ',
+                                             cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateZ')
+
+                        cmds.parent(TweakGrp, TweakRollGrp)
+                        cmds.parent(TweakRootGrp, TweakCtlsGrp)
+
+                    for i, rgb in enumerate(RGBList):
+                        cmds.connectAttr('l_' + self.name + 'LowOut_bcl.output%s' % rgb,
+                                         'l_' + self.name + '%sLowTweakRoll_grp.rotateX' % alignList[i])
+                        cmds.connectAttr('l_' + self.name + 'UpTY_pma.output3D%s' % XYZList[i].lower(),
+                                         'l_' + self.name + '%sUpTweakRoll_grp.rotateX' % alignList[i])
+                        cmds.connectAttr('l_' + self.name + 'UpTX_pma.output3D%s' % XYZList[i].lower(),
+                                         'l_' + self.name + '%sUpTweakRoll_grp.rotateY' % alignList[i])
+                        cmds.connectAttr('l_' + self.name + 'LowTX_pma.output3D%s' % XYZList[i].lower(),
+                                         'l_' + self.name + '%sLowTweakRoll_grp.rotateY' % alignList[i])
 
 
+
+                    TweakCtlSize = (cmds.getAttr('r_' + self.name + lidSpacePosJntsList[2] + '.tz') * 0.05)
+                    TweakCtlsGrp = cmds.group(em=True, n='r_' + self.name + 'TweakCtls_grp')
+                    for TweakJndex in lidSpacePosJntsList:
+                        pos = cmds.xform('r_' + self.name + TweakJndex, q=True, ws=True, t=True)
+                        TweakCtls = cmds.curve(d=1, p=[(-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize)],
+                                               k=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
+                                               n='r_' + self.name + TweakJndex.replace('Space_jnt', 'Tweak_ctl'))
+                        cmds.rename(cmds.listRelatives(TweakCtls)[0],
+                                    'r_' + self.name + TweakJndex.replace('Space_jnt', 'Tweak_ctlShape'))
+                        cmds.setAttr(cmds.listRelatives(TweakCtls)[0] + '.overrideEnabled', True)
+                        cmds.setAttr(cmds.listRelatives(TweakCtls)[0] + '.overrideColor', 18)
+                        TweakGrp = cmds.group(TweakCtls,
+                                              n='r_' + self.name + TweakJndex.replace('Space_jnt', 'TweakCtl_grp'))
+                        cmds.setAttr(TweakGrp + '.sx', -1)
+                        TweakRollGrp = cmds.group(em=True, n='r_' + self.name + TweakJndex.replace('Space_jnt',
+                                                                                                    'TweakRoll_grp'))
+                        TweakRootGrp = cmds.group(TweakRollGrp, n='r_' + self.name + TweakJndex.replace('Space_jnt',
+                                                                                                         'TweakRoot_grp'))
+                        cmds.xform(TweakRootGrp, ws=True,
+                                   t=cmds.xform(cmds.listRelatives('r_' + self.name + TweakJndex, p=True)[0], q=True,
+                                                ws=True,
+                                                t=True),
+                                   ro=cmds.xform(cmds.listRelatives('r_' + self.name + TweakJndex, p=True)[0], q=True,
+                                                 ws=True,
+                                                 ro=True))
+                        if 'Up' in TweakJndex or 'Corner' in TweakJndex:
+                            cmds.xform(TweakGrp, ws=True, t=pos)
+                            mdi = cmds.createNode('multiplyDivide',
+                                                  n='r_' + self.name + TweakJndex.replace('_jnt', '_mdi'))
+                            cmds.setAttr(mdi + '.input2', -1, -1, -1)
+                            cmds.connectAttr(TweakCtls + '.translateX', mdi + '.input1X')
+                            cmds.connectAttr(mdi + '.outputX',
+                                             cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateX')
+                            cmds.connectAttr(TweakCtls + '.translateY', mdi + '.input1Y')
+                            cmds.connectAttr(mdi + '.outputY',
+                                             cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateY')
+                            cmds.connectAttr(TweakCtls + '.translateZ',
+                                             cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateZ')
+
+                        if 'Low' in TweakJndex:
+                            cmds.xform(TweakGrp, ws=True, t=pos)
+                            cmds.setAttr(TweakGrp + '.sy', -1)
+                            mdi = cmds.createNode('multiplyDivide',
+                                                  n='r_' + self.name + TweakJndex.replace('_jnt', '_mdi'))
+                            cmds.setAttr(mdi + '.input2', -1, -1, -1)
+
+                            cmds.connectAttr(TweakCtls + '.translateX', mdi + '.input1X')
+
+                            cmds.connectAttr(TweakCtls + '.translateX',
+                                             cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateX')
+                            cmds.connectAttr(TweakCtls + '.translateY', mdi + '.input1Y')
+                            cmds.connectAttr(mdi + '.outputY',
+                                             cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateY')
+                            cmds.connectAttr(TweakCtls + '.translateZ',
+                                             cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateZ')
+
+                        cmds.parent(TweakGrp, TweakRollGrp)
+                        cmds.parent(TweakRootGrp, TweakCtlsGrp)
+
+                    for i, rgb in enumerate(RGBList):
+                        cmds.connectAttr('r_' + self.name + 'LowOut_bcl.output%s' % rgb,
+                                         'r_' + self.name + '%sLowTweakRoll_grp.rotateX' % alignList[i])
+                        cmds.connectAttr('r_' + self.name + 'UpTY_pma.output3D%s' % XYZList[i].lower(),
+                                         'r_' + self.name + '%sUpTweakRoll_grp.rotateX' % alignList[i])
+                        cmds.connectAttr('r_' + self.name + 'UpTX_pma.output3D%s' % XYZList[i].lower(),
+                                         'r_' + self.name + '%sUpTweakRoll_grp.rotateY' % alignList[i])
+                        cmds.connectAttr('r_' + self.name + 'LowTX_pma.output3D%s' % XYZList[i].lower(),
+                                         'r_' + self.name + '%sLowTweakRoll_grp.rotateY' % alignList[i])
 
 
 
@@ -2906,7 +3275,7 @@ class controls(setLayouts):
                     lidLowTYMinMdi = cmds.createNode('multiplyDivide', n='l_' + self.name + 'LowTYMin_mdi')
                     cmds.setAttr(lidLowTYMinMdi + '.input2', -1, -1, -1)
                     lidLowOutBcl = cmds.createNode('blendColors', n='l_' + self.name + 'LowOut_bcl')
-                    cmds.setAttr(lidLowOutBcl+'.blender', 1)
+                    cmds.setAttr(lidLowOutBcl + '.blender', 1)
 
                     upToLowPma = cmds.createNode('plusMinusAverage', n='l_' + self.name + 'UpToLow_pma')
                     cmds.connectAttr('l_' + self.name + 'UpRoot_ctl.translateY',
@@ -2979,6 +3348,178 @@ class controls(setLayouts):
                         cmds.connectAttr(lidLowRZ45Mdi + '.output%s' % XYZList[i],
                                          lidLowTYRTPma + '.input3D[1].input3D%s' % XYZList[i].lower())
                         cmds.delete(grp)
+
+                lidSpacePosJntsList = ['InCornerSpace_jnt',
+                                       'InUpSpace_jnt',
+                                       'MidUpSpace_jnt',
+                                       'OutUpSpace_jnt',
+                                       'OutCornerSpace_jnt',
+                                       'InLowSpace_jnt',
+                                       'MidLowSpace_jnt',
+                                       'OutLowSpace_jnt']
+
+                TweakCtlSize = (cmds.getAttr('r_' + self.name + lidSpacePosJntsList[2] + '.tz') * 0.05)
+                TweakCtlsGrp = cmds.group(em=True, n='r_' + self.name + 'TweakCtls_grp')
+                for TweakJndex in lidSpacePosJntsList:
+                    pos = cmds.xform('r_' + self.name + TweakJndex, q=True, ws=True, t=True)
+                    TweakCtls = cmds.curve(d=1, p=[(-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                   (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                   (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                   (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                   (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                   (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                   (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                   (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                   (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                   (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                   (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                   (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                   (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                   (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                   (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                   (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize)],
+                                           k=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
+                                           n='r_' + self.name + TweakJndex.replace('Space_jnt', 'Tweak_ctl'))
+                    cmds.rename(cmds.listRelatives(TweakCtls)[0],
+                                'r_' + self.name + TweakJndex.replace('Space_jnt', 'Tweak_ctlShape'))
+                    cmds.setAttr(cmds.listRelatives(TweakCtls)[0] + '.overrideEnabled', True)
+                    cmds.setAttr(cmds.listRelatives(TweakCtls)[0] + '.overrideColor', 18)
+                    TweakGrp = cmds.group(TweakCtls,
+                                          n='r_' + self.name + TweakJndex.replace('Space_jnt', 'TweakCtl_grp'))
+                    cmds.setAttr(TweakGrp + '.sx', -1)
+                    TweakRollGrp = cmds.group(em=True, n='r_' + self.name + TweakJndex.replace('Space_jnt',
+                                                                                               'TweakRoll_grp'))
+                    TweakRootGrp = cmds.group(TweakRollGrp, n='r_' + self.name + TweakJndex.replace('Space_jnt',
+                                                                                                    'TweakRoot_grp'))
+                    cmds.xform(TweakRootGrp, ws=True,
+                               t=cmds.xform(cmds.listRelatives('r_' + self.name + TweakJndex, p=True)[0], q=True,
+                                            ws=True,
+                                            t=True),
+                               ro=cmds.xform(cmds.listRelatives('r_' + self.name + TweakJndex, p=True)[0], q=True,
+                                             ws=True,
+                                             ro=True))
+                    if 'Up' in TweakJndex or 'Corner' in TweakJndex:
+                        cmds.xform(TweakGrp, ws=True, t=pos)
+                        mdi = cmds.createNode('multiplyDivide',
+                                              n='r_' + self.name + TweakJndex.replace('_jnt', '_mdi'))
+                        cmds.setAttr(mdi + '.input2', -1, -1, -1)
+                        cmds.connectAttr(TweakCtls + '.translateX', mdi + '.input1X')
+                        cmds.connectAttr(mdi + '.outputX',
+                                         cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateX')
+                        cmds.connectAttr(TweakCtls + '.translateY', mdi + '.input1Y')
+                        cmds.connectAttr(mdi + '.outputY',
+                                         cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateY')
+                        cmds.connectAttr(TweakCtls + '.translateZ',
+                                         cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateZ')
+
+                    if 'Low' in TweakJndex:
+                        cmds.xform(TweakGrp, ws=True, t=pos)
+                        cmds.setAttr(TweakGrp + '.sy', -1)
+                        mdi = cmds.createNode('multiplyDivide',
+                                              n='r_' + self.name + TweakJndex.replace('_jnt', '_mdi'))
+                        cmds.setAttr(mdi + '.input2', -1, -1, -1)
+
+                        cmds.connectAttr(TweakCtls + '.translateX', mdi + '.input1X')
+
+                        cmds.connectAttr(TweakCtls + '.translateX',
+                                         cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateX')
+                        cmds.connectAttr(TweakCtls + '.translateY', mdi + '.input1Y')
+                        cmds.connectAttr(mdi + '.outputY',
+                                         cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateY')
+                        cmds.connectAttr(TweakCtls + '.translateZ',
+                                         cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateZ')
+
+                    cmds.parent(TweakGrp, TweakRollGrp)
+                    cmds.parent(TweakRootGrp, TweakCtlsGrp)
+
+                for i, rgb in enumerate(RGBList):
+                    cmds.connectAttr('r_' + self.name + 'LowOut_bcl.output%s' % rgb,
+                                     'r_' + self.name + '%sLowTweakRoll_grp.rotateX' % alignList[i])
+                    cmds.connectAttr('r_' + self.name + 'UpTY_pma.output3D%s' % XYZList[i].lower(),
+                                     'r_' + self.name + '%sUpTweakRoll_grp.rotateX' % alignList[i])
+                    cmds.connectAttr('r_' + self.name + 'UpTX_pma.output3D%s' % XYZList[i].lower(),
+                                     'r_' + self.name + '%sUpTweakRoll_grp.rotateY' % alignList[i])
+                    cmds.connectAttr('r_' + self.name + 'LowTX_pma.output3D%s' % XYZList[i].lower(),
+                                     'r_' + self.name + '%sLowTweakRoll_grp.rotateY' % alignList[i])
+
+                TweakCtlSize = (cmds.getAttr('l_' + self.name + lidSpacePosJntsList[2] + '.tz') * 0.05)
+                TweakCtlsGrp = cmds.group(em=True, n='l_' + self.name + 'TweakCtls_grp')
+                for TweakJndex in lidSpacePosJntsList:
+                    pos = cmds.xform('l_' + self.name + TweakJndex, q=True, ws=True, t=True)
+                    TweakCtls = cmds.curve(d=1, p=[(-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                   (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                   (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                   (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                   (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                   (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                   (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                   (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                   (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                   (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                   (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                   (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                   (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                   (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                   (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                   (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize)],
+                                           k=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
+                                           n='l_' + self.name + TweakJndex.replace('Space_jnt', 'Tweak_ctl'))
+                    cmds.rename(cmds.listRelatives(TweakCtls)[0],
+                                'l_' + self.name + TweakJndex.replace('Space_jnt', 'Tweak_ctlShape'))
+                    cmds.setAttr(cmds.listRelatives(TweakCtls)[0] + '.overrideEnabled', True)
+                    cmds.setAttr(cmds.listRelatives(TweakCtls)[0] + '.overrideColor', 18)
+                    TweakGrp = cmds.group(TweakCtls,
+                                          n='l_' + self.name + TweakJndex.replace('Space_jnt', 'TweakCtl_grp'))
+                    TweakRollGrp = cmds.group(em=True, n='l_' + self.name + TweakJndex.replace('Space_jnt',
+                                                                                               'TweakRoll_grp'))
+                    TweakRootGrp = cmds.group(TweakRollGrp, n='l_' + self.name + TweakJndex.replace('Space_jnt',
+                                                                                                    'TweakRoot_grp'))
+                    cmds.xform(TweakRootGrp, ws=True,
+                               t=cmds.xform(cmds.listRelatives('l_' + self.name + TweakJndex, p=True)[0], q=True,
+                                            ws=True,
+                                            t=True),
+                               ro=cmds.xform(cmds.listRelatives('l_' + self.name + TweakJndex, p=True)[0], q=True,
+                                             ws=True,
+                                             ro=True))
+                    if 'Up' in TweakJndex or 'Corner' in TweakJndex:
+                        cmds.xform(TweakGrp, ws=True, t=pos)
+                        cmds.connectAttr(TweakCtls + '.translateX',
+                                         cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateX')
+                        cmds.connectAttr(TweakCtls + '.translateY',
+                                         cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateY')
+                        cmds.connectAttr(TweakCtls + '.translateZ',
+                                         cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateZ')
+
+                    if 'Low' in TweakJndex:
+                        cmds.xform(TweakGrp, ws=True, t=pos)
+                        cmds.setAttr(TweakGrp + '.sy', -1)
+                        mdi = cmds.createNode('multiplyDivide',
+                                              n='l_' + self.name + TweakJndex.replace('_jnt', '_mdi'))
+                        cmds.setAttr(mdi + '.input2X', -1)
+
+                        cmds.connectAttr(TweakCtls + '.translateX', mdi + '.input1X')
+
+                        cmds.connectAttr(mdi + '.outputX',
+                                         cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateX')
+                        cmds.connectAttr(TweakCtls + '.translateY',
+                                         cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateY')
+                        cmds.connectAttr(TweakCtls + '.translateZ',
+                                         cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateZ')
+
+                    cmds.parent(TweakGrp, TweakRollGrp)
+                    cmds.parent(TweakRootGrp, TweakCtlsGrp)
+
+                for i, rgb in enumerate(RGBList):
+                    cmds.connectAttr('l_' + self.name + 'LowOut_bcl.output%s' % rgb,
+                                     'l_' + self.name + '%sLowTweakRoll_grp.rotateX' % alignList[i])
+                    cmds.connectAttr('l_' + self.name + 'UpTY_pma.output3D%s' % XYZList[i].lower(),
+                                     'l_' + self.name + '%sUpTweakRoll_grp.rotateX' % alignList[i])
+                    cmds.connectAttr('l_' + self.name + 'UpTX_pma.output3D%s' % XYZList[i].lower(),
+                                     'l_' + self.name + '%sUpTweakRoll_grp.rotateY' % alignList[i])
+                    cmds.connectAttr('l_' + self.name + 'LowTX_pma.output3D%s' % XYZList[i].lower(),
+                                     'l_' + self.name + '%sLowTweakRoll_grp.rotateY' % alignList[i])
+
+
 
 
                 if not 'facialGlobalJnt_grp' in cmds.ls():
