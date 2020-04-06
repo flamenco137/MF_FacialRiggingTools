@@ -3349,175 +3349,175 @@ class controls(setLayouts):
                                          lidLowTYRTPma + '.input3D[1].input3D%s' % XYZList[i].lower())
                         cmds.delete(grp)
 
-                lidSpacePosJntsList = ['InCornerSpace_jnt',
-                                       'InUpSpace_jnt',
-                                       'MidUpSpace_jnt',
-                                       'OutUpSpace_jnt',
-                                       'OutCornerSpace_jnt',
-                                       'InLowSpace_jnt',
-                                       'MidLowSpace_jnt',
-                                       'OutLowSpace_jnt']
+                    lidSpacePosJntsList = ['InCornerSpace_jnt',
+                                           'InUpSpace_jnt',
+                                           'MidUpSpace_jnt',
+                                           'OutUpSpace_jnt',
+                                           'OutCornerSpace_jnt',
+                                           'InLowSpace_jnt',
+                                           'MidLowSpace_jnt',
+                                           'OutLowSpace_jnt']
 
-                TweakCtlSize = (cmds.getAttr('r_' + self.name + lidSpacePosJntsList[2] + '.tz') * 0.05)
-                TweakCtlsGrp = cmds.group(em=True, n='r_' + self.name + 'TweakCtls_grp')
-                for TweakJndex in lidSpacePosJntsList:
-                    pos = cmds.xform('r_' + self.name + TweakJndex, q=True, ws=True, t=True)
-                    TweakCtls = cmds.curve(d=1, p=[(-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
-                                                   (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
-                                                   (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
-                                                   (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
-                                                   (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
-                                                   (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
-                                                   (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
-                                                   (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
-                                                   (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
-                                                   (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
-                                                   (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
-                                                   (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
-                                                   (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
-                                                   (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
-                                                   (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
-                                                   (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize)],
-                                           k=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
-                                           n='r_' + self.name + TweakJndex.replace('Space_jnt', 'Tweak_ctl'))
-                    cmds.rename(cmds.listRelatives(TweakCtls)[0],
-                                'r_' + self.name + TweakJndex.replace('Space_jnt', 'Tweak_ctlShape'))
-                    cmds.setAttr(cmds.listRelatives(TweakCtls)[0] + '.overrideEnabled', True)
-                    cmds.setAttr(cmds.listRelatives(TweakCtls)[0] + '.overrideColor', 18)
-                    TweakGrp = cmds.group(TweakCtls,
-                                          n='r_' + self.name + TweakJndex.replace('Space_jnt', 'TweakCtl_grp'))
-                    cmds.setAttr(TweakGrp + '.sx', -1)
-                    TweakRollGrp = cmds.group(em=True, n='r_' + self.name + TweakJndex.replace('Space_jnt',
-                                                                                               'TweakRoll_grp'))
-                    TweakRootGrp = cmds.group(TweakRollGrp, n='r_' + self.name + TweakJndex.replace('Space_jnt',
-                                                                                                    'TweakRoot_grp'))
-                    cmds.xform(TweakRootGrp, ws=True,
-                               t=cmds.xform(cmds.listRelatives('r_' + self.name + TweakJndex, p=True)[0], q=True,
-                                            ws=True,
-                                            t=True),
-                               ro=cmds.xform(cmds.listRelatives('r_' + self.name + TweakJndex, p=True)[0], q=True,
-                                             ws=True,
-                                             ro=True))
-                    if 'Up' in TweakJndex or 'Corner' in TweakJndex:
-                        cmds.xform(TweakGrp, ws=True, t=pos)
-                        mdi = cmds.createNode('multiplyDivide',
-                                              n='r_' + self.name + TweakJndex.replace('_jnt', '_mdi'))
-                        cmds.setAttr(mdi + '.input2', -1, -1, -1)
-                        cmds.connectAttr(TweakCtls + '.translateX', mdi + '.input1X')
-                        cmds.connectAttr(mdi + '.outputX',
-                                         cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateX')
-                        cmds.connectAttr(TweakCtls + '.translateY', mdi + '.input1Y')
-                        cmds.connectAttr(mdi + '.outputY',
-                                         cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateY')
-                        cmds.connectAttr(TweakCtls + '.translateZ',
-                                         cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateZ')
+                    TweakCtlSize = (cmds.getAttr('r_' + self.name + lidSpacePosJntsList[2] + '.tz') * 0.05)
+                    TweakCtlsGrp = cmds.group(em=True, n='r_' + self.name + 'TweakCtls_grp')
+                    for TweakJndex in lidSpacePosJntsList:
+                        pos = cmds.xform('r_' + self.name + TweakJndex, q=True, ws=True, t=True)
+                        TweakCtls = cmds.curve(d=1, p=[(-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize)],
+                                               k=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
+                                               n='r_' + self.name + TweakJndex.replace('Space_jnt', 'Tweak_ctl'))
+                        cmds.rename(cmds.listRelatives(TweakCtls)[0],
+                                    'r_' + self.name + TweakJndex.replace('Space_jnt', 'Tweak_ctlShape'))
+                        cmds.setAttr(cmds.listRelatives(TweakCtls)[0] + '.overrideEnabled', True)
+                        cmds.setAttr(cmds.listRelatives(TweakCtls)[0] + '.overrideColor', 18)
+                        TweakGrp = cmds.group(TweakCtls,
+                                              n='r_' + self.name + TweakJndex.replace('Space_jnt', 'TweakCtl_grp'))
+                        cmds.setAttr(TweakGrp + '.sx', -1)
+                        TweakRollGrp = cmds.group(em=True, n='r_' + self.name + TweakJndex.replace('Space_jnt',
+                                                                                                   'TweakRoll_grp'))
+                        TweakRootGrp = cmds.group(TweakRollGrp, n='r_' + self.name + TweakJndex.replace('Space_jnt',
+                                                                                                        'TweakRoot_grp'))
+                        cmds.xform(TweakRootGrp, ws=True,
+                                   t=cmds.xform(cmds.listRelatives('r_' + self.name + TweakJndex, p=True)[0], q=True,
+                                                ws=True,
+                                                t=True),
+                                   ro=cmds.xform(cmds.listRelatives('r_' + self.name + TweakJndex, p=True)[0], q=True,
+                                                 ws=True,
+                                                 ro=True))
+                        if 'Up' in TweakJndex or 'Corner' in TweakJndex:
+                            cmds.xform(TweakGrp, ws=True, t=pos)
+                            mdi = cmds.createNode('multiplyDivide',
+                                                  n='r_' + self.name + TweakJndex.replace('_jnt', '_mdi'))
+                            cmds.setAttr(mdi + '.input2', -1, -1, -1)
+                            cmds.connectAttr(TweakCtls + '.translateX', mdi + '.input1X')
+                            cmds.connectAttr(mdi + '.outputX',
+                                             cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateX')
+                            cmds.connectAttr(TweakCtls + '.translateY', mdi + '.input1Y')
+                            cmds.connectAttr(mdi + '.outputY',
+                                             cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateY')
+                            cmds.connectAttr(TweakCtls + '.translateZ',
+                                             cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateZ')
 
-                    if 'Low' in TweakJndex:
-                        cmds.xform(TweakGrp, ws=True, t=pos)
-                        cmds.setAttr(TweakGrp + '.sy', -1)
-                        mdi = cmds.createNode('multiplyDivide',
-                                              n='r_' + self.name + TweakJndex.replace('_jnt', '_mdi'))
-                        cmds.setAttr(mdi + '.input2', -1, -1, -1)
+                        if 'Low' in TweakJndex:
+                            cmds.xform(TweakGrp, ws=True, t=pos)
+                            cmds.setAttr(TweakGrp + '.sy', -1)
+                            mdi = cmds.createNode('multiplyDivide',
+                                                  n='r_' + self.name + TweakJndex.replace('_jnt', '_mdi'))
+                            cmds.setAttr(mdi + '.input2', -1, -1, -1)
 
-                        cmds.connectAttr(TweakCtls + '.translateX', mdi + '.input1X')
+                            cmds.connectAttr(TweakCtls + '.translateX', mdi + '.input1X')
 
-                        cmds.connectAttr(TweakCtls + '.translateX',
-                                         cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateX')
-                        cmds.connectAttr(TweakCtls + '.translateY', mdi + '.input1Y')
-                        cmds.connectAttr(mdi + '.outputY',
-                                         cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateY')
-                        cmds.connectAttr(TweakCtls + '.translateZ',
-                                         cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateZ')
+                            cmds.connectAttr(TweakCtls + '.translateX',
+                                             cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateX')
+                            cmds.connectAttr(TweakCtls + '.translateY', mdi + '.input1Y')
+                            cmds.connectAttr(mdi + '.outputY',
+                                             cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateY')
+                            cmds.connectAttr(TweakCtls + '.translateZ',
+                                             cmds.listRelatives('r_' + self.name + TweakJndex)[0] + '.translateZ')
 
-                    cmds.parent(TweakGrp, TweakRollGrp)
-                    cmds.parent(TweakRootGrp, TweakCtlsGrp)
+                        cmds.parent(TweakGrp, TweakRollGrp)
+                        cmds.parent(TweakRootGrp, TweakCtlsGrp)
 
-                for i, rgb in enumerate(RGBList):
-                    cmds.connectAttr('r_' + self.name + 'LowOut_bcl.output%s' % rgb,
-                                     'r_' + self.name + '%sLowTweakRoll_grp.rotateX' % alignList[i])
-                    cmds.connectAttr('r_' + self.name + 'UpTY_pma.output3D%s' % XYZList[i].lower(),
-                                     'r_' + self.name + '%sUpTweakRoll_grp.rotateX' % alignList[i])
-                    cmds.connectAttr('r_' + self.name + 'UpTX_pma.output3D%s' % XYZList[i].lower(),
-                                     'r_' + self.name + '%sUpTweakRoll_grp.rotateY' % alignList[i])
-                    cmds.connectAttr('r_' + self.name + 'LowTX_pma.output3D%s' % XYZList[i].lower(),
-                                     'r_' + self.name + '%sLowTweakRoll_grp.rotateY' % alignList[i])
+                    for i, rgb in enumerate(RGBList):
+                        cmds.connectAttr('r_' + self.name + 'LowOut_bcl.output%s' % rgb,
+                                         'r_' + self.name + '%sLowTweakRoll_grp.rotateX' % alignList[i])
+                        cmds.connectAttr('r_' + self.name + 'UpTY_pma.output3D%s' % XYZList[i].lower(),
+                                         'r_' + self.name + '%sUpTweakRoll_grp.rotateX' % alignList[i])
+                        cmds.connectAttr('r_' + self.name + 'UpTX_pma.output3D%s' % XYZList[i].lower(),
+                                         'r_' + self.name + '%sUpTweakRoll_grp.rotateY' % alignList[i])
+                        cmds.connectAttr('r_' + self.name + 'LowTX_pma.output3D%s' % XYZList[i].lower(),
+                                         'r_' + self.name + '%sLowTweakRoll_grp.rotateY' % alignList[i])
 
-                TweakCtlSize = (cmds.getAttr('l_' + self.name + lidSpacePosJntsList[2] + '.tz') * 0.05)
-                TweakCtlsGrp = cmds.group(em=True, n='l_' + self.name + 'TweakCtls_grp')
-                for TweakJndex in lidSpacePosJntsList:
-                    pos = cmds.xform('l_' + self.name + TweakJndex, q=True, ws=True, t=True)
-                    TweakCtls = cmds.curve(d=1, p=[(-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
-                                                   (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
-                                                   (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
-                                                   (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
-                                                   (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
-                                                   (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
-                                                   (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
-                                                   (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
-                                                   (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
-                                                   (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
-                                                   (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
-                                                   (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
-                                                   (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
-                                                   (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
-                                                   (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
-                                                   (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize)],
-                                           k=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
-                                           n='l_' + self.name + TweakJndex.replace('Space_jnt', 'Tweak_ctl'))
-                    cmds.rename(cmds.listRelatives(TweakCtls)[0],
-                                'l_' + self.name + TweakJndex.replace('Space_jnt', 'Tweak_ctlShape'))
-                    cmds.setAttr(cmds.listRelatives(TweakCtls)[0] + '.overrideEnabled', True)
-                    cmds.setAttr(cmds.listRelatives(TweakCtls)[0] + '.overrideColor', 18)
-                    TweakGrp = cmds.group(TweakCtls,
-                                          n='l_' + self.name + TweakJndex.replace('Space_jnt', 'TweakCtl_grp'))
-                    TweakRollGrp = cmds.group(em=True, n='l_' + self.name + TweakJndex.replace('Space_jnt',
-                                                                                               'TweakRoll_grp'))
-                    TweakRootGrp = cmds.group(TweakRollGrp, n='l_' + self.name + TweakJndex.replace('Space_jnt',
-                                                                                                    'TweakRoot_grp'))
-                    cmds.xform(TweakRootGrp, ws=True,
-                               t=cmds.xform(cmds.listRelatives('l_' + self.name + TweakJndex, p=True)[0], q=True,
-                                            ws=True,
-                                            t=True),
-                               ro=cmds.xform(cmds.listRelatives('l_' + self.name + TweakJndex, p=True)[0], q=True,
-                                             ws=True,
-                                             ro=True))
-                    if 'Up' in TweakJndex or 'Corner' in TweakJndex:
-                        cmds.xform(TweakGrp, ws=True, t=pos)
-                        cmds.connectAttr(TweakCtls + '.translateX',
-                                         cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateX')
-                        cmds.connectAttr(TweakCtls + '.translateY',
-                                         cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateY')
-                        cmds.connectAttr(TweakCtls + '.translateZ',
-                                         cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateZ')
+                    TweakCtlSize = (cmds.getAttr('l_' + self.name + lidSpacePosJntsList[2] + '.tz') * 0.05)
+                    TweakCtlsGrp = cmds.group(em=True, n='l_' + self.name + 'TweakCtls_grp')
+                    for TweakJndex in lidSpacePosJntsList:
+                        pos = cmds.xform('l_' + self.name + TweakJndex, q=True, ws=True, t=True)
+                        TweakCtls = cmds.curve(d=1, p=[(-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, 0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, 0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize),
+                                                       (-0.5 * TweakCtlSize, -0.5 * TweakCtlSize, -0.5 * TweakCtlSize)],
+                                               k=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
+                                               n='l_' + self.name + TweakJndex.replace('Space_jnt', 'Tweak_ctl'))
+                        cmds.rename(cmds.listRelatives(TweakCtls)[0],
+                                    'l_' + self.name + TweakJndex.replace('Space_jnt', 'Tweak_ctlShape'))
+                        cmds.setAttr(cmds.listRelatives(TweakCtls)[0] + '.overrideEnabled', True)
+                        cmds.setAttr(cmds.listRelatives(TweakCtls)[0] + '.overrideColor', 18)
+                        TweakGrp = cmds.group(TweakCtls,
+                                              n='l_' + self.name + TweakJndex.replace('Space_jnt', 'TweakCtl_grp'))
+                        TweakRollGrp = cmds.group(em=True, n='l_' + self.name + TweakJndex.replace('Space_jnt',
+                                                                                                   'TweakRoll_grp'))
+                        TweakRootGrp = cmds.group(TweakRollGrp, n='l_' + self.name + TweakJndex.replace('Space_jnt',
+                                                                                                        'TweakRoot_grp'))
+                        cmds.xform(TweakRootGrp, ws=True,
+                                   t=cmds.xform(cmds.listRelatives('l_' + self.name + TweakJndex, p=True)[0], q=True,
+                                                ws=True,
+                                                t=True),
+                                   ro=cmds.xform(cmds.listRelatives('l_' + self.name + TweakJndex, p=True)[0], q=True,
+                                                 ws=True,
+                                                 ro=True))
+                        if 'Up' in TweakJndex or 'Corner' in TweakJndex:
+                            cmds.xform(TweakGrp, ws=True, t=pos)
+                            cmds.connectAttr(TweakCtls + '.translateX',
+                                             cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateX')
+                            cmds.connectAttr(TweakCtls + '.translateY',
+                                             cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateY')
+                            cmds.connectAttr(TweakCtls + '.translateZ',
+                                             cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateZ')
 
-                    if 'Low' in TweakJndex:
-                        cmds.xform(TweakGrp, ws=True, t=pos)
-                        cmds.setAttr(TweakGrp + '.sy', -1)
-                        mdi = cmds.createNode('multiplyDivide',
-                                              n='l_' + self.name + TweakJndex.replace('_jnt', '_mdi'))
-                        cmds.setAttr(mdi + '.input2X', -1)
+                        if 'Low' in TweakJndex:
+                            cmds.xform(TweakGrp, ws=True, t=pos)
+                            cmds.setAttr(TweakGrp + '.sy', -1)
+                            mdi = cmds.createNode('multiplyDivide',
+                                                  n='l_' + self.name + TweakJndex.replace('_jnt', '_mdi'))
+                            cmds.setAttr(mdi + '.input2X', -1)
 
-                        cmds.connectAttr(TweakCtls + '.translateX', mdi + '.input1X')
+                            cmds.connectAttr(TweakCtls + '.translateX', mdi + '.input1X')
 
-                        cmds.connectAttr(mdi + '.outputX',
-                                         cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateX')
-                        cmds.connectAttr(TweakCtls + '.translateY',
-                                         cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateY')
-                        cmds.connectAttr(TweakCtls + '.translateZ',
-                                         cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateZ')
+                            cmds.connectAttr(mdi + '.outputX',
+                                             cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateX')
+                            cmds.connectAttr(TweakCtls + '.translateY',
+                                             cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateY')
+                            cmds.connectAttr(TweakCtls + '.translateZ',
+                                             cmds.listRelatives('l_' + self.name + TweakJndex)[0] + '.translateZ')
 
-                    cmds.parent(TweakGrp, TweakRollGrp)
-                    cmds.parent(TweakRootGrp, TweakCtlsGrp)
+                        cmds.parent(TweakGrp, TweakRollGrp)
+                        cmds.parent(TweakRootGrp, TweakCtlsGrp)
 
-                for i, rgb in enumerate(RGBList):
-                    cmds.connectAttr('l_' + self.name + 'LowOut_bcl.output%s' % rgb,
-                                     'l_' + self.name + '%sLowTweakRoll_grp.rotateX' % alignList[i])
-                    cmds.connectAttr('l_' + self.name + 'UpTY_pma.output3D%s' % XYZList[i].lower(),
-                                     'l_' + self.name + '%sUpTweakRoll_grp.rotateX' % alignList[i])
-                    cmds.connectAttr('l_' + self.name + 'UpTX_pma.output3D%s' % XYZList[i].lower(),
-                                     'l_' + self.name + '%sUpTweakRoll_grp.rotateY' % alignList[i])
-                    cmds.connectAttr('l_' + self.name + 'LowTX_pma.output3D%s' % XYZList[i].lower(),
-                                     'l_' + self.name + '%sLowTweakRoll_grp.rotateY' % alignList[i])
+                    for i, rgb in enumerate(RGBList):
+                        cmds.connectAttr('l_' + self.name + 'LowOut_bcl.output%s' % rgb,
+                                         'l_' + self.name + '%sLowTweakRoll_grp.rotateX' % alignList[i])
+                        cmds.connectAttr('l_' + self.name + 'UpTY_pma.output3D%s' % XYZList[i].lower(),
+                                         'l_' + self.name + '%sUpTweakRoll_grp.rotateX' % alignList[i])
+                        cmds.connectAttr('l_' + self.name + 'UpTX_pma.output3D%s' % XYZList[i].lower(),
+                                         'l_' + self.name + '%sUpTweakRoll_grp.rotateY' % alignList[i])
+                        cmds.connectAttr('l_' + self.name + 'LowTX_pma.output3D%s' % XYZList[i].lower(),
+                                         'l_' + self.name + '%sLowTweakRoll_grp.rotateY' % alignList[i])
 
 
 
